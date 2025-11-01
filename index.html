@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashiq Bangash - Software Engineer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Ashiq Bangash - Software Engineer & Educator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'rebecca-purple': '#663399',
-                        'light-purple': '#8a6bc9',
-                        'dark-purple': '#4c2673',
-                        'accent-purple': '#7e57c2',
+                        'primary-blue': '#3B82F6',
+                        'dark-blue': '#1E40AF',
+                        'light-blue': '#93C5FD',
+                        'accent-purple': '#8B5CF6',
+                        'dark-purple': '#6D28D9',
+                        'light-purple': '#C4B5FD',
                     },
                     fontFamily: {
                         'poppins': ['Poppins', 'sans-serif'],
@@ -31,6 +34,8 @@
                         'fadeInRight': 'fadeInRight 0.8s ease-out',
                         'typewriter': 'typewriter 2s steps(11) 1s 1 normal both',
                         'blink': 'blink 0.8s steps(11) infinite',
+                        'morph': 'morph 8s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
                     },
                     keyframes: {
                         float: {
@@ -55,7 +60,16 @@
                         },
                         blink: {
                             'from, to': { 'border-color': 'transparent' },
-                            '50%': { 'border-color': 'rebeccapurple' }
+                            '50%': { 'border-color': '#3B82F6' }
+                        },
+                        morph: {
+                            '0%': { borderRadius: '60% 40% 30% 70%/60% 30% 70% 40%' },
+                            '50%': { borderRadius: '30% 60% 70% 40%/50% 60% 30% 60%' },
+                            '100%': { borderRadius: '60% 40% 30% 70%/60% 30% 70% 40%' },
+                        },
+                        glow: {
+                            'from': { boxShadow: '0 0 20px #3B82F6' },
+                            'to': { boxShadow: '0 0 30px #8B5CF6, 0 0 40px #3B82F6' }
                         }
                     }
                 }
@@ -76,28 +90,36 @@
         body {
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
+            background-color: #f8fafc;
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #663399 0%, #4c2673 100%);
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+        }
+        
+        .blue-gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #1E40AF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .purple-gradient-text {
-            background: linear-gradient(135deg, #663399, #8a6bc9);
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
         .floating-card {
-            box-shadow: 0 10px 30px rgba(102, 51, 153, 0.1);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
             transition: all 0.4s ease;
-            border: 1px solid rgba(102, 51, 153, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.1);
         }
         
         .floating-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(102, 51, 153, 0.15);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
         }
         
         .skill-bar {
@@ -111,7 +133,7 @@
             height: 100%;
             border-radius: 4px;
             transition: width 1.5s ease-in-out;
-            background: linear-gradient(90deg, #663399, #8a6bc9);
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
         }
         
         .tech-icon {
@@ -128,8 +150,8 @@
         }
         
         .contact-input:focus {
-            box-shadow: 0 0 0 3px rgba(102, 51, 153, 0.2);
-            border-color: #663399;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
         }
         
         .animate-on-scroll {
@@ -155,7 +177,7 @@
             top: 0;
             width: 2rem;
             height: 2rem;
-            background: #663399;
+            background: #3B82F6;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -185,12 +207,12 @@
         }
         
         .glow {
-            box-shadow: 0 0 20px rgba(102, 51, 153, 0.3);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
         
         .typewriter-text {
             overflow: hidden;
-            border-right: .15em solid rebeccapurple;
+            border-right: .15em solid #3B82F6;
             white-space: nowrap;
             margin: 0 auto;
             animation: typewriter 2s steps(11) 1s 1 normal both, blink 0.8s steps(11) infinite;
@@ -199,26 +221,8 @@
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: rgba(102, 51, 153, 0.1);
+            background: rgba(59, 130, 246, 0.1);
             animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes morph {
-            0% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
-            50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
-            100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
-        }
-        
-        .morph {
-            animation: morph 8s ease-in-out infinite;
-            border: 3px solid #663399;
-        }
-        
-        .parallax {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
         }
         
         .sticky-nav {
@@ -234,55 +238,169 @@
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 2px;
+        }
+        
+        .floating-shape {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-shape-1 {
+            animation-delay: 0s;
+        }
+        
+        .floating-shape-2 {
+            animation-delay: 2s;
+        }
+        
+        .floating-shape-3 {
+            animation-delay: 4s;
+        }
+        
+        .testimonial-card {
+            transition: all 0.4s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-card {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
     </style>
 </head>
-<body class="font-poppins bg-white text-gray-800">
+<body class="font-poppins text-gray-800">
     <!-- Navigation -->
-    <nav id="navbar" class="sticky-nav py-4 transition-all duration-300">
+    <nav id="navbar" class="sticky-nav py-4 transition-all duration-300 z-50">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold purple-gradient-text">Ashiq Bangash</a>
+            <a href="#" class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</a>
             <div class="hidden md:flex space-x-8">
-                <a href="#home" class="text-gray-700 hover:text-rebecca-purple transition-colors font-medium">Home</a>
-                <a href="#about" class="text-gray-700 hover:text-rebecca-purple transition-colors font-medium">About</a>
-                <a href="#services" class="text-gray-700 hover:text-rebecca-purple transition-colors font-medium">Services</a>
-                <a href="#process" class="text-gray-700 hover:text-rebecca-purple transition-colors font-medium">Process</a>
-                <a href="#skills" class="text-gray-700 hover:text-rebecca-purple transition-colors font-medium">Skills</a>
-                <a href="#contact" class="text-gray-700 hover:text-rebecca-purple transition-colors font-medium">Contact</a>
+                <a href="#home" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Home</a>
+                <a href="#about" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">About</a>
+                <a href="#services" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Services</a>
+                <a href="#process" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Process</a>
+                <a href="#projects" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Projects</a>
+                <a href="#skills" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Skills</a>
+                <a href="#contact" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Contact</a>
             </div>
-            <button class="md:hidden text-gray-700">
+            <button id="mobile-menu-button" class="md:hidden text-gray-700">
                 <i class="fas fa-bars text-xl"></i>
             </button>
         </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-40 p-6">
+        <div class="flex justify-between items-center mb-8">
+            <a href="#" class="text-xl font-bold blue-gradient-text">Ashiq Bangash</a>
+            <button id="close-mobile-menu" class="text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="flex flex-col space-y-6">
+            <a href="#home" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Home</a>
+            <a href="#about" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">About</a>
+            <a href="#services" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Services</a>
+            <a href="#process" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Process</a>
+            <a href="#projects" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Projects</a>
+            <a href="#skills" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Skills</a>
+            <a href="#contact" class="text-gray-700 hover:text-primary-blue transition-colors font-medium">Contact</a>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden gradient-bg text-white pt-20">
         <!-- Animated Background Elements -->
-        <div class="particle" style="width: 100px; height: 100px; top: 10%; left: 10%; animation-delay: 0s;"></div>
-        <div class="particle" style="width: 150px; height: 150px; top: 70%; left: 80%; animation-delay: 2s;"></div>
-        <div class="particle" style="width: 80px; height: 80px; top: 40%; left: 85%; animation-delay: 4s;"></div>
-        <div class="particle" style="width: 120px; height: 120px; top: 80%; left: 20%; animation-delay: 1s;"></div>
-        <div class="particle" style="width: 60px; height: 60px; top: 20%; left: 60%; animation-delay: 3s;"></div>
+        <div class="particle floating-shape-1" style="width: 100px; height: 100px; top: 10%; left: 10%;"></div>
+        <div class="particle floating-shape-2" style="width: 150px; height: 150px; top: 70%; left: 80%;"></div>
+        <div class="particle floating-shape-3" style="width: 80px; height: 80px; top: 40%; left: 85%;"></div>
+        <div class="particle floating-shape-1" style="width: 120px; height: 120px; top: 80%; left: 20%;"></div>
+        <div class="particle floating-shape-2" style="width: 60px; height: 60px; top: 20%; left: 60%;"></div>
         
         <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
             <div class="md:w-1/2 mb-10 md:mb-0">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-fadeInUp">Ashiq <span class="text-white">Bangash</span></h1>
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Ashiq <span class="text-white">Bangash</span></h1>
                 <div class="text-2xl md:text-3xl font-semibold mb-6 h-10">
                     <div class="typewriter-text">Software Engineer</div>
                 </div>
-                <p class="text-lg md:text-xl mb-8 max-w-lg animate-fadeInUp">Crafting digital experiences with code, creativity, and 7+ years of expertise in web and app development.</p>
-                <div class="flex space-x-4 animate-fadeInUp">
-                    <a href="#contact" class="bg-white text-rebecca-purple hover:bg-gray-100 px-6 py-3 rounded-lg font-medium transition-colors glow">Get In Touch</a>
-                    <a href="#services" class="bg-transparent border-2 border-white hover:bg-white hover:text-rebecca-purple text-white px-6 py-3 rounded-lg font-medium transition-colors">View My Work</a>
+                <p class="text-lg md:text-xl mb-8 max-w-lg">Crafting digital experiences with code, creativity, and 7+ years of expertise in web and app development.</p>
+                <div class="flex space-x-4">
+                    <a href="#contact" class="bg-white text-primary-blue hover:bg-gray-100 px-6 py-3 rounded-lg font-medium transition-colors glow">Get In Touch</a>
+                    <a href="#projects" class="bg-transparent border-2 border-white hover:bg-white hover:text-primary-blue text-white px-6 py-3 rounded-lg font-medium transition-colors">View My Work</a>
+                </div>
+                
+                <div class="mt-12 flex space-x-6">
+                    <div class="text-center">
+                        <p class="text-3xl font-bold counter" data-target="7">0</p>
+                        <p class="text-lg">Years Experience</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold counter" data-target="20">0</p>
+                        <p class="text-lg">Projects Completed</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold counter" data-target="15">0</p>
+                        <p class="text-lg">Happy Clients</p>
+                    </div>
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
                 <div class="relative w-64 h-64 md:w-96 md:h-96">
-                    <div class="absolute inset-0 morph bg-gradient-to-r from-rebecca-purple to-light-purple flex items-center justify-center">
+                    <div class="absolute inset-0 animate-morph bg-gradient-to-r from-primary-blue to-accent-purple flex items-center justify-center rounded-full">
                         <div class="text-white text-center p-8">
                             <i class="fas fa-laptop-code text-6xl mb-4"></i>
-                            <p class="text-xl font-bold">7+ Years Experience</p>
-                            <p class="text-lg">20+ Projects Completed</p>
+                            <p class="text-xl font-bold">Full Stack Developer</p>
+                            <p class="text-lg">Web & Mobile Apps</p>
                         </div>
                     </div>
                 </div>
@@ -299,69 +417,75 @@
     <!-- About Section -->
     <section id="about" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 animate-on-scroll">About Me</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16 animate-on-scroll">Passionate software engineer with a love for teaching and creating digital solutions</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 section-title">About Me</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">Passionate software engineer with a love for teaching and creating digital solutions</p>
             
             <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-10 md:mb-0 animate-on-scroll">
+                <div class="md:w-1/2 mb-10 md:mb-0">
                     <div class="bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl floating-card border border-gray-100">
-                        <h3 class="text-2xl font-bold text-rebecca-purple mb-4">My Journey</h3>
+                        <h3 class="text-2xl font-bold blue-gradient-text mb-4">My Journey</h3>
                         <p class="text-gray-700 mb-4">I'm a passionate Software Engineer with over 7 years of professional experience in the industry, specializing in web and mobile application development.</p>
                         <p class="text-gray-700 mb-4">Currently, I'm sharing my knowledge with the next generation of developers as an instructor at Blue Bird Institute of IT, teaching Web Development and Flutter App Development.</p>
                         <p class="text-gray-700">I've successfully delivered more than 20 projects for clients worldwide, creating digital solutions that drive business growth and user engagement.</p>
                         
                         <div class="mt-8 grid grid-cols-2 gap-4">
-                            <div class="text-center p-4 bg-purple-50 rounded-lg">
-                                <p class="text-3xl font-bold text-rebecca-purple">7+</p>
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <p class="text-3xl font-bold text-primary-blue">7+</p>
                                 <p class="text-gray-700">Years Experience</p>
                             </div>
                             <div class="text-center p-4 bg-purple-50 rounded-lg">
-                                <p class="text-3xl font-bold text-rebecca-purple">20+</p>
+                                <p class="text-3xl font-bold text-accent-purple">20+</p>
                                 <p class="text-gray-700">Projects Completed</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="md:w-1/2 md:pl-12 animate-on-scroll">
+                <div class="md:w-1/2 md:pl-12">
                     <div class="mb-8">
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">Education & Experience</h3>
                         <div class="space-y-6">
                             <div class="flex">
                                 <div class="mr-4">
-                                    <div class="w-12 h-12 bg-rebecca-purple rounded-full flex items-center justify-center text-white">
+                                    <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center text-white">
                                         <i class="fas fa-graduation-cap"></i>
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-rebecca-purple">Software Engineering Degree</h4>
+                                    <h4 class="font-bold text-primary-blue">Software Engineering Degree</h4>
                                     <p class="text-gray-600">Comprehensive education in software development principles and practices</p>
                                 </div>
                             </div>
                             
                             <div class="flex">
                                 <div class="mr-4">
-                                    <div class="w-12 h-12 bg-light-purple rounded-full flex items-center justify-center text-white">
+                                    <div class="w-12 h-12 bg-accent-purple rounded-full flex items-center justify-center text-white">
                                         <i class="fas fa-chalkboard-teacher"></i>
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-rebecca-purple">Instructor at Blue Bird Institute</h4>
+                                    <h4 class="font-bold text-accent-purple">Instructor at Blue Bird Institute</h4>
                                     <p class="text-gray-600">Teaching Web Development & Flutter App Development to aspiring developers</p>
                                 </div>
                             </div>
                             
                             <div class="flex">
                                 <div class="mr-4">
-                                    <div class="w-12 h-12 bg-accent-purple rounded-full flex items-center justify-center text-white">
+                                    <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center text-white">
                                         <i class="fas fa-laptop-code"></i>
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-rebecca-purple">Freelance Developer</h4>
+                                    <h4 class="font-bold text-primary-blue">Freelance Developer</h4>
                                     <p class="text-gray-600">7+ years delivering web and app solutions for clients worldwide</p>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-primary-blue to-accent-purple p-6 rounded-2xl text-white">
+                        <h3 class="text-xl font-bold mb-2">Let's Work Together!</h3>
+                        <p class="mb-4">I'm available for freelance projects and collaborations.</p>
+                        <a href="#contact" class="inline-block bg-white text-primary-blue px-4 py-2 rounded-lg font-medium">Get In Touch</a>
                     </div>
                 </div>
             </div>
@@ -371,74 +495,74 @@
     <!-- Services Section -->
     <section id="services" class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 animate-on-scroll">My Services</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16 animate-on-scroll">Comprehensive digital solutions to bring your ideas to life</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 section-title">My Services</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">Comprehensive digital solutions to bring your ideas to life</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Service 1 -->
-                <div class="bg-white p-8 rounded-2xl floating-card animate-on-scroll">
-                    <div class="w-16 h-16 bg-rebecca-purple rounded-full flex items-center justify-center text-white mb-6">
+                <div class="bg-white p-8 rounded-2xl floating-card">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center text-white mb-6">
                         <i class="fas fa-code text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Web Development</h3>
                     <p class="text-gray-600 mb-6">Custom websites and web applications built with modern technologies like React, Node.js, and PHP.</p>
                     <ul class="text-gray-600 space-y-2">
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-primary-blue mr-2"></i>
                             <span>Responsive Design</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-primary-blue mr-2"></i>
                             <span>E-commerce Solutions</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-primary-blue mr-2"></i>
                             <span>Custom Web Applications</span>
                         </li>
                     </ul>
                 </div>
                 
                 <!-- Service 2 -->
-                <div class="bg-white p-8 rounded-2xl floating-card animate-on-scroll">
-                    <div class="w-16 h-16 bg-light-purple rounded-full flex items-center justify-center text-white mb-6">
+                <div class="bg-white p-8 rounded-2xl floating-card">
+                    <div class="w-16 h-16 bg-accent-purple rounded-full flex items-center justify-center text-white mb-6">
                         <i class="fas fa-mobile-alt text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">App Development</h3>
                     <p class="text-gray-600 mb-6">Cross-platform mobile applications developed with Flutter for both iOS and Android.</p>
                     <ul class="text-gray-600 space-y-2">
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-accent-purple mr-2"></i>
                             <span>Flutter Development</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-accent-purple mr-2"></i>
                             <span>UI/UX Design</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-accent-purple mr-2"></i>
                             <span>App Store Deployment</span>
                         </li>
                     </ul>
                 </div>
                 
                 <!-- Service 3 -->
-                <div class="bg-white p-8 rounded-2xl floating-card animate-on-scroll">
-                    <div class="w-16 h-16 bg-accent-purple rounded-full flex items-center justify-center text-white mb-6">
+                <div class="bg-white p-8 rounded-2xl floating-card">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center text-white mb-6">
                         <i class="fab fa-wordpress text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">WordPress Solutions</h3>
                     <p class="text-gray-600 mb-6">Custom WordPress themes, plugins, and full website development with CMS functionality.</p>
                     <ul class="text-gray-600 space-y-2">
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-primary-blue mr-2"></i>
                             <span>Custom Themes</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-primary-blue mr-2"></i>
                             <span>Plugin Development</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-check text-rebecca-purple mr-2"></i>
+                            <i class="fas fa-check text-primary-blue mr-2"></i>
                             <span>E-commerce with WooCommerce</span>
                         </li>
                     </ul>
@@ -450,43 +574,43 @@
     <!-- Process Section -->
     <section id="process" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 animate-on-scroll">Development Process</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16 animate-on-scroll">A structured approach to delivering high-quality digital solutions</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 section-title">Development Process</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">A structured approach to delivering high-quality digital solutions</p>
             
             <div class="max-w-4xl mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="animate-on-scroll">
+                    <div>
                         <div class="process-step mb-8">
-                            <h3 class="text-xl font-bold text-rebecca-purple mb-2">Discovery & Planning</h3>
+                            <h3 class="text-xl font-bold text-primary-blue mb-2">Discovery & Planning</h3>
                             <p class="text-gray-600">We start by understanding your business goals, target audience, and project requirements to create a detailed plan.</p>
                         </div>
                         
                         <div class="process-step mb-8">
-                            <h3 class="text-xl font-bold text-rebecca-purple mb-2">Design & Prototyping</h3>
+                            <h3 class="text-xl font-bold text-primary-blue mb-2">Design & Prototyping</h3>
                             <p class="text-gray-600">I create wireframes and prototypes to visualize the user interface and experience before development begins.</p>
                         </div>
                         
                         <div class="process-step mb-8">
-                            <h3 class="text-xl font-bold text-rebecca-purple mb-2">Development</h3>
+                            <h3 class="text-xl font-bold text-primary-blue mb-2">Development</h3>
                             <p class="text-gray-600">Using the latest technologies, I build your website or application with clean, maintainable code.</p>
                         </div>
                     </div>
                     
-                    <div class="animate-on-scroll">
+                    <div>
                         <div class="process-step mb-8">
-                            <h3 class="text-xl font-bold text-rebecca-purple mb-2">Testing & Quality Assurance</h3>
+                            <h3 class="text-xl font-bold text-primary-blue mb-2">Testing & Quality Assurance</h3>
                             <p class="text-gray-600">Thorough testing across devices and browsers ensures your solution works flawlessly for all users.</p>
                         </div>
                         
                         <div class="process-step mb-8">
-                            <h3 class="text-xl font-bold text-rebecca-purple mb-2">Deployment & Launch</h3>
+                            <h3 class="text-xl font-bold text-primary-blue mb-2">Deployment & Launch</h3>
                             <p class="text-gray-600">I handle the deployment process and ensure a smooth launch of your digital solution.</p>
                         </div>
                         
-                        <div class="bg-gradient-to-r from-rebecca-purple to-light-purple p-6 rounded-2xl text-white mt-8">
+                        <div class="bg-gradient-to-r from-primary-blue to-accent-purple p-6 rounded-2xl text-white mt-8">
                             <h3 class="text-xl font-bold mb-2">Ready to Start Your Project?</h3>
                             <p class="mb-4">Let's discuss how we can bring your ideas to life with a custom digital solution.</p>
-                            <a href="#contact" class="inline-block bg-white text-rebecca-purple px-4 py-2 rounded-lg font-medium">Get Started</a>
+                            <a href="#contact" class="inline-block bg-white text-primary-blue px-4 py-2 rounded-lg font-medium">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -494,20 +618,97 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-20 bg-gray-50">
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 animate-on-scroll">Technical Skills</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16 animate-on-scroll">Mastering the tools and technologies that power modern digital experiences</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 section-title">Featured Projects</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">A selection of my recent work across web and mobile platforms</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card bg-white rounded-2xl overflow-hidden floating-card">
+                    <div class="h-48 bg-gradient-to-r from-primary-blue to-accent-purple flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">E-Commerce Platform</h3>
+                        <p class="text-gray-600 mb-4">A full-featured online store with payment integration and inventory management.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-100 text-primary-blue px-3 py-1 rounded-full text-sm">React</span>
+                            <span class="bg-purple-100 text-accent-purple px-3 py-1 rounded-full text-sm">Node.js</span>
+                            <span class="bg-blue-100 text-primary-blue px-3 py-1 rounded-full text-sm">MongoDB</span>
+                        </div>
+                    </div>
+                    <div class="project-overlay">
+                        <h3 class="text-xl font-bold text-white mb-2">E-Commerce Platform</h3>
+                        <p class="text-white mb-4">A full-featured online store with payment integration</p>
+                        <a href="#" class="bg-white text-primary-blue px-4 py-2 rounded-lg font-medium mt-4">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card bg-white rounded-2xl overflow-hidden floating-card">
+                    <div class="h-48 bg-gradient-to-r from-accent-purple to-primary-blue flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Fitness Tracking App</h3>
+                        <p class="text-gray-600 mb-4">A cross-platform mobile app for tracking workouts and nutrition.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-100 text-primary-blue px-3 py-1 rounded-full text-sm">Flutter</span>
+                            <span class="bg-purple-100 text-accent-purple px-3 py-1 rounded-full text-sm">Firebase</span>
+                            <span class="bg-blue-100 text-primary-blue px-3 py-1 rounded-full text-sm">Dart</span>
+                        </div>
+                    </div>
+                    <div class="project-overlay">
+                        <h3 class="text-xl font-bold text-white mb-2">Fitness Tracking App</h3>
+                        <p class="text-white mb-4">A cross-platform mobile app for tracking workouts</p>
+                        <a href="#" class="bg-white text-primary-blue px-4 py-2 rounded-lg font-medium mt-4">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card bg-white rounded-2xl overflow-hidden floating-card">
+                    <div class="h-48 bg-gradient-to-r from-primary-blue to-accent-purple flex items-center justify-center">
+                        <i class="fas fa-briefcase text-white text-5xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Business Portfolio</h3>
+                        <p class="text-gray-600 mb-4">A modern portfolio website for a creative agency with CMS functionality.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-100 text-primary-blue px-3 py-1 rounded-full text-sm">WordPress</span>
+                            <span class="bg-purple-100 text-accent-purple px-3 py-1 rounded-full text-sm">PHP</span>
+                            <span class="bg-blue-100 text-primary-blue px-3 py-1 rounded-full text-sm">JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="project-overlay">
+                        <h3 class="text-xl font-bold text-white mb-2">Business Portfolio</h3>
+                        <p class="text-white mb-4">A modern portfolio website for a creative agency</p>
+                        <a href="#" class="bg-white text-primary-blue px-4 py-2 rounded-lg font-medium mt-4">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#contact" class="bg-primary-blue hover:bg-dark-blue text-white px-6 py-3 rounded-lg font-medium transition-colors glow">View All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 section-title">Technical Skills</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">Mastering the tools and technologies that power modern digital experiences</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="animate-on-scroll">
+                <div>
                     <h3 class="text-xl font-semibold text-gray-800 mb-6">Expertise Levels</h3>
                     
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
                             <span class="font-medium text-gray-700">JavaScript / React</span>
-                            <span class="font-medium text-rebecca-purple">95%</span>
+                            <span class="font-medium text-primary-blue">95%</span>
                         </div>
                         <div class="skill-bar">
                             <div class="skill-progress" style="width: 95%"></div>
@@ -517,7 +718,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
                             <span class="font-medium text-gray-700">Flutter</span>
-                            <span class="font-medium text-rebecca-purple">90%</span>
+                            <span class="font-medium text-primary-blue">90%</span>
                         </div>
                         <div class="skill-bar">
                             <div class="skill-progress" style="width: 90%"></div>
@@ -527,7 +728,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
                             <span class="font-medium text-gray-700">Node.js</span>
-                            <span class="font-medium text-rebecca-purple">85%</span>
+                            <span class="font-medium text-primary-blue">85%</span>
                         </div>
                         <div class="skill-bar">
                             <div class="skill-progress" style="width: 85%"></div>
@@ -537,7 +738,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
                             <span class="font-medium text-gray-700">PHP</span>
-                            <span class="font-medium text-rebecca-purple">80%</span>
+                            <span class="font-medium text-primary-blue">80%</span>
                         </div>
                         <div class="skill-bar">
                             <div class="skill-progress" style="width: 80%"></div>
@@ -547,7 +748,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
                             <span class="font-medium text-gray-700">WordPress</span>
-                            <span class="font-medium text-rebecca-purple">90%</span>
+                            <span class="font-medium text-primary-blue">90%</span>
                         </div>
                         <div class="skill-bar">
                             <div class="skill-progress" style="width: 90%"></div>
@@ -555,7 +756,7 @@
                     </div>
                 </div>
                 
-                <div class="animate-on-scroll">
+                <div>
                     <h3 class="text-xl font-semibold text-gray-800 mb-6">Technologies I Use</h3>
                     <div class="grid grid-cols-3 gap-4 mb-8">
                         <div class="bg-white p-4 rounded-lg text-center tech-icon floating-card">
@@ -584,20 +785,20 @@
                         </div>
                     </div>
                     
-                    <div class="bg-white p-6 rounded-2xl floating-card">
-                        <h4 class="text-xl font-bold text-rebecca-purple mb-2">Why Choose Me?</h4>
+                    <div class="bg-white p-6 rounded-2xl floating-card border border-gray-100">
+                        <h4 class="text-xl font-bold blue-gradient-text mb-2">Why Choose Me?</h4>
                         <p class="text-gray-600 mb-4">With 7+ years of experience and 20+ successful projects, I bring both technical expertise and creative problem-solving to every project.</p>
                         <div class="flex justify-between">
                             <div class="text-center">
-                                <p class="text-2xl font-bold text-rebecca-purple">7+</p>
+                                <p class="text-2xl font-bold text-primary-blue">7+</p>
                                 <p class="text-gray-600">Years Experience</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-2xl font-bold text-rebecca-purple">20+</p>
+                                <p class="text-2xl font-bold text-accent-purple">20+</p>
                                 <p class="text-gray-600">Projects Completed</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-2xl font-bold text-rebecca-purple">100%</p>
+                                <p class="text-2xl font-bold text-primary-blue">100%</p>
                                 <p class="text-gray-600">Client Satisfaction</p>
                             </div>
                         </div>
@@ -607,19 +808,89 @@
         </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 section-title">Client Testimonials</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">What my clients say about working with me</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl testimonial-card floating-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center text-white mr-4">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Sarah Johnson</h4>
+                            <p class="text-gray-600 text-sm">CEO, Tech Solutions</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Ashiq delivered an exceptional e-commerce platform that exceeded our expectations. His attention to detail and technical expertise are remarkable."</p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl testimonial-card floating-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-accent-purple rounded-full flex items-center justify-center text-white mr-4">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Michael Chen</h4>
+                            <p class="text-gray-600 text-sm">Founder, Fitness App</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"The Flutter app Ashiq developed for us is flawless. He understood our vision perfectly and delivered ahead of schedule. Highly recommended!"</p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl testimonial-card floating-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center text-white mr-4">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Emma Wilson</h4>
+                            <p class="text-gray-600 text-sm">Marketing Director</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Working with Ashiq on our WordPress site was a pleasure. He's knowledgeable, responsive, and delivered a beautiful, functional website."</p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 animate-on-scroll">Get In Touch</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16 animate-on-scroll">Ready to start your project? Let's discuss how we can bring your ideas to life</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 section-title">Get In Touch</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">Ready to start your project? Let's discuss how we can bring your ideas to life</p>
             
             <div class="flex flex-col lg:flex-row gap-12">
-                <div class="lg:w-1/2 animate-on-scroll">
+                <div class="lg:w-1/2">
                     <div class="bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl floating-card border border-gray-100 h-full">
-                        <h3 class="text-2xl font-bold text-rebecca-purple mb-6">Contact Information</h3>
+                        <h3 class="text-2xl font-bold blue-gradient-text mb-6">Contact Information</h3>
                         
                         <div class="mb-6 flex items-start">
-                            <div class="w-12 h-12 bg-rebecca-purple rounded-full flex items-center justify-center text-white mr-4">
+                            <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center text-white mr-4">
                                 <i class="fas fa-phone"></i>
                             </div>
                             <div>
@@ -629,7 +900,7 @@
                         </div>
                         
                         <div class="mb-6 flex items-start">
-                            <div class="w-12 h-12 bg-light-purple rounded-full flex items-center justify-center text-white mr-4">
+                            <div class="w-12 h-12 bg-accent-purple rounded-full flex items-center justify-center text-white mr-4">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div>
@@ -639,7 +910,7 @@
                         </div>
                         
                         <div class="mb-6 flex items-start">
-                            <div class="w-12 h-12 bg-accent-purple rounded-full flex items-center justify-center text-white mr-4">
+                            <div class="w-12 h-12 bg-primary-blue rounded-full flex items-center justify-center text-white mr-4">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div>
@@ -651,13 +922,13 @@
                         <div class="mt-8">
                             <h4 class="font-bold text-gray-800 mb-4">Follow Me</h4>
                             <div class="flex space-x-4">
-                                <a href="#" class="w-10 h-10 bg-rebecca-purple rounded-full flex items-center justify-center text-white hover:bg-dark-purple transition-colors">
+                                <a href="#" class="w-10 h-10 bg-primary-blue rounded-full flex items-center justify-center text-white hover:bg-dark-blue transition-colors">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="#" class="w-10 h-10 bg-rebecca-purple rounded-full flex items-center justify-center text-white hover:bg-dark-purple transition-colors">
+                                <a href="#" class="w-10 h-10 bg-primary-blue rounded-full flex items-center justify-center text-white hover:bg-dark-blue transition-colors">
                                     <i class="fab fa-github"></i>
                                 </a>
-                                <a href="#" class="w-10 h-10 bg-light-purple rounded-full flex items-center justify-center text-white hover:bg-dark-purple transition-colors">
+                                <a href="#" class="w-10 h-10 bg-accent-purple rounded-full flex items-center justify-center text-white hover:bg-dark-purple transition-colors">
                                     <i class="fab fa-twitter"></i>
                                 </a>
                                 <a href="#" class="w-10 h-10 bg-accent-purple rounded-full flex items-center justify-center text-white hover:bg-dark-purple transition-colors">
@@ -668,31 +939,31 @@
                     </div>
                 </div>
                 
-                <div class="lg:w-1/2 animate-on-scroll">
+                <div class="lg:w-1/2">
                     <div class="bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl floating-card border border-gray-100 h-full">
-                        <h3 class="text-2xl font-bold text-rebecca-purple mb-6">Send Me a Message</h3>
-                        <form>
+                        <h3 class="text-2xl font-bold blue-gradient-text mb-6">Send Me a Message</h3>
+                        <form id="contact-form">
                             <div class="mb-6">
                                 <label for="name" class="block text-gray-700 mb-2">Your Name</label>
-                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter your name">
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter your name" required>
                             </div>
                             
                             <div class="mb-6">
                                 <label for="email" class="block text-gray-700 mb-2">Your Email</label>
-                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter your email">
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter your email" required>
                             </div>
                             
                             <div class="mb-6">
                                 <label for="subject" class="block text-gray-700 mb-2">Subject</label>
-                                <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter subject">
+                                <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter subject" required>
                             </div>
                             
                             <div class="mb-6">
                                 <label for="message" class="block text-gray-700 mb-2">Your Message</label>
-                                <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter your message"></textarea>
+                                <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg contact-input focus:outline-none" placeholder="Enter your message" required></textarea>
                             </div>
                             
-                            <button type="submit" class="w-full bg-rebecca-purple hover:bg-dark-purple text-white py-3 rounded-lg font-medium transition-colors glow">Send Message</button>
+                            <button type="submit" class="w-full bg-primary-blue hover:bg-dark-blue text-white py-3 rounded-lg font-medium transition-colors glow">Send Message</button>
                         </form>
                     </div>
                 </div>
@@ -725,6 +996,27 @@
 
     <!-- JavaScript -->
     <script>
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+        
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+        
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
@@ -735,61 +1027,96 @@
             }
         });
 
-        // Animate elements on scroll
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+        
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        };
+        
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger, TextPlugin);
+        
+        // Initialize animations when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            const animatedElements = document.querySelectorAll('.animate-on-scroll');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            
-            animatedElements.forEach(element => {
-                observer.observe(element);
-            });
-            
-            // Animate skill bars when they come into view
-            const skillBars = document.querySelectorAll('.skill-progress');
-            const skillObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const width = entry.target.style.width;
-                        entry.target.style.width = '0';
-                        setTimeout(() => {
-                            entry.target.style.width = width;
-                        }, 300);
-                    }
-                });
-            }, {
-                threshold: 0.5
-            });
-            
-            skillBars.forEach(bar => {
-                skillObserver.observe(bar);
-            });
-
-            // GSAP Animations
-            gsap.registerPlugin(ScrollTrigger);
-            
             // Hero section animations
-            gsap.from('.animate-fadeInUp', {
+            gsap.from('#home h1', {
                 duration: 1,
                 y: 50,
                 opacity: 0,
-                stagger: 0.2,
                 ease: "power3.out"
             });
             
-            // Section title animations
-            gsap.utils.toArray('h2').forEach(title => {
-                gsap.from(title, {
+            gsap.from('#home .typewriter-text', {
+                duration: 1,
+                delay: 0.5,
+                y: 30,
+                opacity: 0,
+                ease: "power3.out"
+            });
+            
+            gsap.from('#home p', {
+                duration: 1,
+                delay: 1,
+                y: 30,
+                opacity: 0,
+                ease: "power3.out"
+            });
+            
+            gsap.from('#home .flex.space-x-4', {
+                duration: 1,
+                delay: 1.5,
+                y: 30,
+                opacity: 0,
+                ease: "power3.out"
+            });
+            
+            gsap.from('#home .flex.space-x-6', {
+                duration: 1,
+                delay: 2,
+                y: 30,
+                opacity: 0,
+                ease: "power3.out"
+            });
+            
+            gsap.from('#home .absolute.inset-0', {
+                duration: 1.5,
+                delay: 0.5,
+                scale: 0.8,
+                opacity: 0,
+                ease: "power3.out"
+            });
+            
+            // Animate counters when they come into view
+            const counterSection = document.querySelector('#home');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(counterSection);
+            
+            // Section animations
+            gsap.utils.toArray('section').forEach(section => {
+                gsap.from(section, {
                     scrollTrigger: {
-                        trigger: title,
+                        trigger: section,
                         start: "top 80%",
                         end: "bottom 20%",
                         toggleActions: "play none none reverse"
@@ -832,6 +1159,60 @@
                     ease: "power2.out"
                 });
             });
+            
+            // Project card animations
+            gsap.utils.toArray('.project-card').forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    },
+                    duration: 0.8,
+                    y: 30,
+                    opacity: 0,
+                    ease: "power2.out"
+                });
+            });
+            
+            // Testimonial card animations
+            gsap.utils.toArray('.testimonial-card').forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    },
+                    duration: 0.8,
+                    y: 30,
+                    opacity: 0,
+                    ease: "power2.out"
+                });
+            });
+            
+            // Skill bar animations
+            gsap.utils.toArray('.skill-progress').forEach(bar => {
+                gsap.from(bar, {
+                    scrollTrigger: {
+                        trigger: bar,
+                        start: "top 85%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    },
+                    duration: 1.5,
+                    width: 0,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            this.reset();
         });
     </script>
 </body>
