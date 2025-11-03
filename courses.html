@@ -259,39 +259,45 @@
     </style>
 </head>
 <body class="font-poppins text-gray-200">
-    <!-- Navigation -->
-    <nav id="navbar" class="sticky-nav py-4 transition-all duration-300 z-50">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</a>
-            <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
-                <a href="index.html#about" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">About</a>
-                <a href="courses.html" class="text-primary-blue font-medium">Courses</a>
-                <a href="index.html#services" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Services</a>
-                <a href="index.html#contact" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Contact</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden text-gray-300">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-slate-900 shadow-lg z-40 p-6">
-        <div class="flex justify-between items-center mb-8">
-            <a href="index.html" class="text-xl font-bold blue-gradient-text">Ashiq Bangash</a>
-            <button id="close-mobile-menu" class="text-gray-300">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        <div class="flex flex-col space-y-6">
+<!-- Navigation -->
+<nav id="navbar" class="sticky-nav py-4 transition-all duration-300 z-50">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</a>
+        <div class="hidden md:flex space-x-8">
             <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
             <a href="index.html#about" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">About</a>
-            <a href="courses.html" class="text-primary-blue font-medium">Courses</a>
             <a href="index.html#services" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Services</a>
+            <a href="index.html#process" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Process</a>
+            <a href="index.html#projects" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Projects</a>
+            <a href="index.html#skills" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Skills</a>
+            <a href="courses.html" class="text-primary-blue font-medium">Courses</a>
             <a href="index.html#contact" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Contact</a>
         </div>
+        <button id="mobile-menu-button" class="md:hidden text-gray-300">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
     </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-slate-900 shadow-lg z-40 p-6">
+    <div class="flex justify-between items-center mb-8">
+        <a href="index.html" class="text-xl font-bold blue-gradient-text">Ashiq Bangash</a>
+        <button id="close-mobile-menu" class="text-gray-300">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+    </div>
+    <div class="flex flex-col space-y-6">
+        <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
+        <a href="index.html#about" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">About</a>
+        <a href="index.html#services" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Services</a>
+        <a href="index.html#process" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Process</a>
+        <a href="index.html#projects" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Projects</a>
+        <a href="index.html#skills" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Skills</a>
+        <a href="courses.html" class="text-primary-blue font-medium">Courses</a>
+        <a href="index.html#contact" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Contact</a>
+    </div>
+</div>
 
     <!-- Hero Section -->
     <section class="pt-32 pb-20 gradient-bg">
@@ -653,4 +659,268 @@
                         </div>
                     </div>
                     
-                    <input type="hidden" id=
+                    <input type="hidden" id="payment-method" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="certificate-option" class="mr-2">
+                        <span>Add Certificate of Completion (+500 PKR)</span>
+                    </label>
+                </div>
+                
+                <div class="mb-6 p-4 bg-slate-800 rounded-lg">
+                    <div class="flex justify-between mb-2">
+                        <span>Course Fee:</span>
+                        <span>1000 PKR</span>
+                    </div>
+                    <div class="flex justify-between mb-2" id="certificate-fee-row" style="display: none;">
+                        <span>Certificate Fee:</span>
+                        <span>500 PKR</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-lg border-t border-slate-700 pt-2">
+                        <span>Total Amount:</span>
+                        <span id="total-amount">1000 PKR</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full">
+                    Complete Enrollment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                <i class="fas fa-check text-2xl"></i>
+            </div>
+            
+            <h3 class="text-2xl font-bold mb-4">Enrollment Request Submitted!</h3>
+            <p class="text-slate-300 mb-6">Thank you for your interest in our course. Our finance manager will contact you shortly to complete the payment process and provide you with course access.</p>
+            
+            <div class="bg-slate-800 p-4 rounded-lg mb-6">
+                <h4 class="font-bold mb-2">Next Steps:</h4>
+                <ul class="text-slate-300 text-left">
+                    <li class="mb-2">1. Our team will contact you within 24 hours</li>
+                    <li class="mb-2">2. Complete the payment process</li>
+                    <li class="mb-2">3. Receive course access credentials</li>
+                    <li>4. Start your learning journey!</li>
+                </ul>
+            </div>
+            
+            <button id="close-success-modal" class="btn-primary">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</h3>
+                    <p class="text-slate-400 mt-2">Software Engineer & Educator</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-slate-400 hover:text-primary-blue transition-colors">Home</a>
+                    <a href="index.html#about" class="text-slate-400 hover:text-primary-blue transition-colors">About</a>
+                    <a href="courses.html" class="text-primary-blue">Courses</a>
+                    <a href="index.html#contact" class="text-slate-400 hover:text-primary-blue transition-colors">Contact</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-700 mt-8 pt-8 text-center text-slate-400">
+                <p>&copy; 2023 Ashiq Bangash. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+        
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Course enrollment functionality
+        const enrollmentModal = document.getElementById('enrollment-modal');
+        const successModal = document.getElementById('success-modal');
+        const enrollButtons = document.querySelectorAll('.enroll-btn');
+        const closeModalBtn = document.getElementById('close-modal');
+        const closeSuccessModalBtn = document.getElementById('close-success-modal');
+        const enrollmentForm = document.getElementById('enrollment-form');
+        const selectedCourseInput = document.getElementById('selected-course');
+        const certificateOption = document.getElementById('certificate-option');
+        const certificateFeeRow = document.getElementById('certificate-fee-row');
+        const totalAmount = document.getElementById('total-amount');
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const paymentMethodInput = document.getElementById('payment-method');
+        
+        // Open enrollment modal when clicking enroll button
+        enrollButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const courseName = button.getAttribute('data-course');
+                selectedCourseInput.value = courseName;
+                enrollmentModal.classList.add('open');
+            });
+        });
+        
+        // Close modals
+        closeModalBtn.addEventListener('click', () => {
+            enrollmentModal.classList.remove('open');
+        });
+        
+        closeSuccessModalBtn.addEventListener('click', () => {
+            successModal.classList.remove('open');
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === enrollmentModal) {
+                enrollmentModal.classList.remove('open');
+            }
+            if (e.target === successModal) {
+                successModal.classList.remove('open');
+            }
+        });
+        
+        // Certificate option toggle
+        certificateOption.addEventListener('change', () => {
+            if (certificateOption.checked) {
+                certificateFeeRow.style.display = 'flex';
+                totalAmount.textContent = '1500 PKR';
+            } else {
+                certificateFeeRow.style.display = 'none';
+                totalAmount.textContent = '1000 PKR';
+            }
+        });
+        
+        // Payment method selection
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected class from all options
+                paymentOptions.forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                option.classList.add('selected');
+                
+                // Set payment method value
+                paymentMethodInput.value = option.getAttribute('data-method');
+            });
+        });
+        
+        // Form submission
+        enrollmentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Validate payment method selected
+            if (!paymentMethodInput.value) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            // In a real application, you would send this data to a server
+            // For this demo, we'll just show the success message
+            
+            // Get form data
+            const formData = {
+                course: selectedCourseInput.value,
+                name: document.getElementById('student-name').value,
+                email: document.getElementById('student-email').value,
+                phone: document.getElementById('student-phone').value,
+                paymentMethod: paymentMethodInput.value,
+                certificate: certificateOption.checked,
+                totalAmount: certificateOption.checked ? '1500 PKR' : '1000 PKR'
+            };
+            
+            console.log('Enrollment Data:', formData);
+            
+            // Show success modal
+            enrollmentModal.classList.remove('open');
+            successModal.classList.add('open');
+            
+            // Reset form
+            enrollmentForm.reset();
+            certificateFeeRow.style.display = 'none';
+            totalAmount.textContent = '1000 PKR';
+            paymentOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            paymentMethodInput.value = '';
+        });
+        
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Initialize animations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Course card animations
+            gsap.utils.toArray('.course-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    },
+                    duration: 0.8,
+                    y: 30,
+                    opacity: 0,
+                    delay: i * 0.1,
+                    ease: "power2.out"
+                });
+            });
+            
+            // Feature animations
+            gsap.utils.toArray('.text-center').forEach((feature, i) => {
+                gsap.from(feature, {
+                    scrollTrigger: {
+                        trigger: feature,
+                        start: "top 85%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    },
+                    duration: 0.8,
+                    y: 30,
+                    opacity: 0,
+                    delay: i * 0.1,
+                    ease: "power2.out"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
