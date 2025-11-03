@@ -1,1 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | Ashiq Bangash - Software Engineer & Educator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#3B82F6',
+                        'dark-blue': '#1E40AF',
+                        'light-blue': '#93C5FD',
+                        'accent-purple': '#8B5CF6',
+                        'dark-purple': '#6D28D9',
+                        'light-purple': '#C4B5FD',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fadeInUp': 'fadeInUp 0.8s ease-out',
+                        'zoomIn': 'zoomIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        zoomIn: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        
+        .blue-gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .purple-gradient-text {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .floating-card {
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        
+        .floating-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+        
+        .course-card {
+            transition: all 0.4s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.8);
+        }
+        
+        .nav-scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 2px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.open {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: zoomIn 0.3s ease-out;
+        }
+        
+        .success-modal {
+            text-align: center;
+            padding: 40px 30px;
+        }
+        
+        .payment-option {
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-option:hover {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .payment-option.selected {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: rgba(30, 41, 59, 0.7);
+            color: #f8fafc;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-list li i {
+            color: #3B82F6;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .certificate-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body class="font-poppins text-gray-200">
+    <!-- Navigation -->
+    <nav id="navbar" class="sticky-nav py-4 transition-all duration-300 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
+                <a href="index.html#about" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">About</a>
+                <a href="courses.html" class="text-primary-blue font-medium">Courses</a>
+                <a href="index.html#services" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Services</a>
+                <a href="index.html#contact" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-slate-900 shadow-lg z-40 p-6">
+        <div class="flex justify-between items-center mb-8">
+            <a href="index.html" class="text-xl font-bold blue-gradient-text">Ashiq Bangash</a>
+            <button id="close-mobile-menu" class="text-gray-300">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="flex flex-col space-y-6">
+            <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
+            <a href="index.html#about" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">About</a>
+            <a href="courses.html" class="text-primary-blue font-medium">Courses</a>
+            <a href="index.html#services" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Services</a>
+            <a href="index.html#contact" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 gradient-bg">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6"><span class="blue-gradient-text">Premium Courses</span> for Aspiring Developers</h1>
+            <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-10">Learn from industry expert with 7+ years of experience. Easy-to-follow courses with interactive coding challenges and real-world projects.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="bg-slate-800 px-4 py-2 rounded-full">
+                    <span class="text-primary-blue"><i class="fas fa-laptop-code mr-2"></i>Hands-on Projects</span>
+                </div>
+                <div class="bg-slate-800 px-4 py-2 rounded-full">
+                    <span class="text-accent-purple"><i class="fas fa-certificate mr-2"></i>Completion Certificate</span>
+                </div>
+                <div class="bg-slate-800 px-4 py-2 rounded-full">
+                    <span class="text-green-400"><i class="fas fa-code mr-2"></i>Coding Challenges</span>
+                </div>
+                <div class="bg-slate-800 px-4 py-2 rounded-full">
+                    <span class="text-yellow-400"><i class="fas fa-question-circle mr-2"></i>Quizzes & Assessments</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="py-20 bg-slate-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title"><span class="purple-gradient-text">Available Courses</span></h2>
+            <p class="text-center text-slate-300 max-w-2xl mx-auto mb-16">Choose from our selection of comprehensive courses designed to take you from beginner to job-ready developer</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Course 1 -->
+                <div class="course-card rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                        <i class="fab fa-wordpress text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold">WordPress Development</h3>
+                            <span class="certificate-badge"><i class="fas fa-certificate mr-1"></i> Certificate</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">Master WordPress from basics to advanced custom theme and plugin development.</p>
+                        
+                        <ul class="feature-list text-slate-300 mb-6">
+                            <li><i class="fas fa-check"></i> <span>Easy-to-follow video tutorials</span></li>
+                            <li><i class="fas fa-check"></i> <span>Interactive coding challenges</span></li>
+                            <li><i class="fas fa-check"></i> <span>Weekly quizzes & assessments</span></li>
+                            <li><i class="fas fa-check"></i> <span>Real-world projects</span></li>
+                            <li><i class="fas fa-check"></i> <span>Certificate of completion</span></li>
+                        </ul>
+                        
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-bold text-primary-blue">1000 PKR</span>
+                                <span class="text-slate-500 line-through ml-2">2000 PKR</span>
+                            </div>
+                            <div class="text-sm text-slate-400">
+                                <i class="fas fa-clock mr-1"></i> 8 Weeks
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full enroll-btn" data-course="WordPress Development">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Course 2 -->
+                <div class="course-card rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-blue-400 to-cyan-500 flex items-center justify-center">
+                        <i class="fab fa-flutter text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold">Flutter App Development</h3>
+                            <span class="certificate-badge"><i class="fas fa-certificate mr-1"></i> Certificate</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">Build beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.</p>
+                        
+                        <ul class="feature-list text-slate-300 mb-6">
+                            <li><i class="fas fa-check"></i> <span>Step-by-step tutorials</span></li>
+                            <li><i class="fas fa-check"></i> <span>Interactive coding exercises</span></li>
+                            <li><i class="fas fa-check"></i> <span>Weekly progress quizzes</span></li>
+                            <li><i class="fas fa-check"></i> <span>Build 5 real mobile apps</span></li>
+                            <li><i class="fas fa-check"></i> <span>Certificate of completion</span></li>
+                        </ul>
+                        
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-bold text-primary-blue">1000 PKR</span>
+                                <span class="text-slate-500 line-through ml-2">2500 PKR</span>
+                            </div>
+                            <div class="text-sm text-slate-400">
+                                <i class="fas fa-clock mr-1"></i> 10 Weeks
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full enroll-btn" data-course="Flutter App Development">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Course 3 -->
+                <div class="course-card rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center">
+                        <i class="fab fa-python text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold">Python Programming</h3>
+                            <span class="certificate-badge"><i class="fas fa-certificate mr-1"></i> Certificate</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">Learn Python from fundamentals to advanced concepts including web development and data science.</p>
+                        
+                        <ul class="feature-list text-slate-300 mb-6">
+                            <li><i class="fas fa-check"></i> <span>Beginner-friendly approach</span></li>
+                            <li><i class="fas fa-check"></i> <span>Interactive coding challenges</span></li>
+                            <li><i class="fas fa-check"></i> <span>Weekly assessment tests</span></li>
+                            <li><i class="fas fa-check"></i> <span>Real-world projects</span></li>
+                            <li><i class="fas fa-check"></i> <span>Certificate of completion</span></li>
+                        </ul>
+                        
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-bold text-primary-blue">1000 PKR</span>
+                                <span class="text-slate-500 line-through ml-2">2200 PKR</span>
+                            </div>
+                            <div class="text-sm text-slate-400">
+                                <i class="fas fa-clock mr-1"></i> 12 Weeks
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full enroll-btn" data-course="Python Programming">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Course 4 -->
+                <div class="course-card rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
+                        <i class="fab fa-unity text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold">Unity Game Development</h3>
+                            <span class="certificate-badge"><i class="fas fa-certificate mr-1"></i> Certificate</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">Create immersive 2D and 3D games with Unity, from concept to deployment on multiple platforms.</p>
+                        
+                        <ul class="feature-list text-slate-300 mb-6">
+                            <li><i class="fas fa-check"></i> <span>Visual learning approach</span></li>
+                            <li><i class="fas fa-check"></i> <span>Interactive game building</span></li>
+                            <li><i class="fas fa-check"></i> <span>Weekly concept quizzes</span></li>
+                            <li><i class="fas fa-check"></i> <span>Build 3 complete games</span></li>
+                            <li><i class="fas fa-check"></i> <span>Certificate of completion</span></li>
+                        </ul>
+                        
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-bold text-primary-blue">1000 PKR</span>
+                                <span class="text-slate-500 line-through ml-2">3000 PKR</span>
+                            </div>
+                            <div class="text-sm text-slate-400">
+                                <i class="fas fa-clock mr-1"></i> 14 Weeks
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full enroll-btn" data-course="Unity Game Development">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Course 5 -->
+                <div class="course-card rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center">
+                        <i class="fab fa-js-square text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold">JavaScript Mastery</h3>
+                            <span class="certificate-badge"><i class="fas fa-certificate mr-1"></i> Certificate</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">Master JavaScript from fundamentals to advanced concepts including ES6+, DOM manipulation, and APIs.</p>
+                        
+                        <ul class="feature-list text-slate-300 mb-6">
+                            <li><i class="fas fa-check"></i> <span>Easy-to-understand examples</span></li>
+                            <li><i class="fas fa-check"></i> <span>Interactive coding exercises</span></li>
+                            <li><i class="fas fa-check"></i> <span>Weekly concept quizzes</span></li>
+                            <li><i class="fas fa-check"></i> <span>Real-world projects</span></li>
+                            <li><i class="fas fa-check"></i> <span>Certificate of completion</span></li>
+                        </ul>
+                        
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-bold text-primary-blue">1000 PKR</span>
+                                <span class="text-slate-500 line-through ml-2">1800 PKR</span>
+                            </div>
+                            <div class="text-sm text-slate-400">
+                                <i class="fas fa-clock mr-1"></i> 8 Weeks
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full enroll-btn" data-course="JavaScript Mastery">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Course 6 -->
+                <div class="course-card rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-database text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold">Web Development Bootcamp</h3>
+                            <span class="certificate-badge"><i class="fas fa-certificate mr-1"></i> Certificate</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">Complete full-stack web development course covering HTML, CSS, JavaScript, Node.js, and databases.</p>
+                        
+                        <ul class="feature-list text-slate-300 mb-6">
+                            <li><i class="fas fa-check"></i> <span>Comprehensive curriculum</span></li>
+                            <li><i class="fas fa-check"></i> <span>Interactive coding challenges</span></li>
+                            <li><i class="fas fa-check"></i> <span>Weekly progress assessments</span></li>
+                            <li><i class="fas fa-check"></i> <span>Build a portfolio of projects</span></li>
+                            <li><i class="fas fa-check"></i> <span>Certificate of completion</span></li>
+                        </ul>
+                        
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <span class="text-2xl font-bold text-primary-blue">1000 PKR</span>
+                                <span class="text-slate-500 line-through ml-2">2800 PKR</span>
+                            </div>
+                            <div class="text-sm text-slate-400">
+                                <i class="fas fa-clock mr-1"></i> 16 Weeks
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary w-full enroll-btn" data-course="Web Development Bootcamp">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 gradient-bg">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title"><span class="blue-gradient-text">Why Learn With Me?</span></h2>
+            <p class="text-center text-slate-300 max-w-2xl mx-auto mb-16">Experience a learning journey designed for success with industry-proven methods</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary-blue rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                        <i class="fas fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Easy Learning Approach</h3>
+                    <p class="text-slate-400">Complex concepts broken down into simple, digestible lessons with real-world examples.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-accent-purple rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                        <i class="fas fa-laptop-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Interactive Coding</h3>
+                    <p class="text-slate-400">Hands-on coding challenges and projects to reinforce learning and build practical skills.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                        <i class="fas fa-question-circle text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Regular Assessments</h3>
+                    <p class="text-slate-400">Weekly quizzes and assessments to track your progress and ensure concept mastery.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-yellow-500 rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                        <i class="fas fa-certificate text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Industry Certificate</h3>
+                    <p class="text-slate-400">Earn a certificate of completion to showcase your skills to employers and clients.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enrollment Modal -->
+    <div id="enrollment-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold blue-gradient-text" id="modal-course-title">Enroll in Course</h3>
+                <button id="close-modal" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="enrollment-form">
+                <div class="mb-6">
+                    <label class="block mb-2 font-medium">Course Selected</label>
+                    <input type="text" id="selected-course" class="form-input" readonly>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block mb-2 font-medium">Full Name</label>
+                    <input type="text" id="student-name" class="form-input" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block mb-2 font-medium">Email Address</label>
+                    <input type="email" id="student-email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block mb-2 font-medium">Phone Number</label>
+                    <input type="tel" id="student-phone" class="form-input" placeholder="Enter your phone number" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block mb-2 font-medium">Select Payment Method</label>
+                    
+                    <div class="payment-option" data-method="jazzcash">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">JazzCash</h4>
+                                <p class="text-slate-400 text-sm">Send payment to 0301-1114499</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-option" data-method="easypaisa">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">EasyPaisa</h4>
+                                <p class="text-slate-400 text-sm">Send payment to 0301-1114499</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-option" data-method="bank">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Bank Transfer</h4>
+                                <p class="text-slate-400 text-sm">Account details will be provided</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id=
