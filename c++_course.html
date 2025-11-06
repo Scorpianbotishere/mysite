@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Programming Course | Ashiq Bangash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Google Translate API -->
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#3B82F6',
+                        'dark-blue': '#1E40AF',
+                        'light-blue': '#93C5FD',
+                        'accent-purple': '#8B5CF6',
+                        'dark-purple': '#6D28D9',
+                        'light-purple': '#C4B5FD',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'fadeInUp': 'fadeInUp 0.8s ease-out',
+                        'zoomIn': 'zoomIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        zoomIn: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        
+        .blue-gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .purple-gradient-text {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .course-card {
+            transition: all 0.4s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.8);
+        }
+        
+        .nav-scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 2px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.open {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            width: 95%;
+            height: 95%;
+            overflow-y: auto;
+            animation: zoomIn 0.3s ease-out;
+        }
+        
+        .lesson-modal {
+            max-width: none;
+        }
+        
+        .quiz-modal {
+            max-width: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #3B82F6;
+            border: 2px solid #3B82F6;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        
+        .lesson-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3B82F6;
+        }
+        
+        .lesson-item.completed {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        
+        .lesson-item.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .quiz-option {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid #334155;
+        }
+        
+        .quiz-option:hover {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .quiz-option.selected {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .quiz-option.correct {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.2);
+        }
+        
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #334155;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .certificate-container {
+            background: white;
+            color: #1e293b;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .certificate-border {
+            border: 20px solid transparent;
+            border-image: linear-gradient(45deg, #3B82F6, #8B5CF6) 1;
+            padding: 30px;
+        }
+        
+        .code-block {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .code-keyword {
+            color: #ef4444;
+        }
+        
+        .code-function {
+            color: #3B82F6;
+        }
+        
+        .code-string {
+            color: #22c55e;
+        }
+        
+        .code-comment {
+            color: #6b7280;
+        }
+        
+        .mini-lecture {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.5);
+            border-left: 4px solid #3B82F6;
+        }
+        
+        .translate-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .auth-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .auth-content {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: rgba(30, 41, 59, 0.7);
+            color: #f8fafc;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+        }
+    </style>
+</head>
+<body class="font-poppins text-gray-200">
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-content">
+            <div class="w-20 h-20 bg-primary-blue rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                <i class="fas fa-lock text-2xl"></i>
+            </div>
+            
+            <h2 class="text-2xl font-bold mb-4">Course Access Required</h2>
+            <p class="text-slate-300 mb-6">Please enter your access key to continue to the C++ Programming Course</p>
+            
+            <input type="password" id="access-key" class="auth-input" placeholder="Enter access key">
+            
+            <button id="submit-key" class="btn-primary w-full">
+                Access Course
+            </button>
+            
+            <p class="text-slate-400 text-sm mt-4">Contact administrator if you don't have an access key</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="sticky-nav py-4 transition-all duration-300 z-50" style="display: none;">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
+                <a href="courses.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Courses</a>
+                <a href="cpp.html" class="text-primary-blue font-medium">C++ Course</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-slate-900 shadow-lg z-40 p-6">
+        <div class="flex justify-between items-center mb-8">
+            <a href="index.html" class="text-xl font-bold blue-gradient-text">Ashiq Bangash</a>
+            <button id="close-mobile-menu" class="text-gray-300">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="flex flex-col space-y-6">
+            <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
+            <a href="courses.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Courses</a>
+            <a href="cpp.html" class="text-primary-blue font-medium">C++ Course</a>
+        </div>
+    </div>
+
+    <!-- Course Header -->
+    <section id="course-header" class="pt-32 pb-20 gradient-bg" style="display: none;">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="inline-block px-4 py-2 bg-slate-800 rounded-full mb-6 border border-primary-blue/30">
+                        <span class="text-sm font-medium blue-gradient-text">C++ Programming Course</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">Master <span class="blue-gradient-text">C++</span> Programming</h1>
+                    <p class="text-xl text-slate-300 mb-8">Learn C++ from basics to advanced concepts with interactive lessons, coding challenges, and real-world projects.</p>
+                    
+                    <div class="flex items-center mb-8">
+                        <div class="flex items-center mr-6">
+                            <i class="fas fa-play-circle text-primary-blue text-xl mr-2"></i>
+                            <span>15 Lessons</span>
+                        </div>
+                        <div class="flex items-center mr-6">
+                            <i class="fas fa-question-circle text-accent-purple text-xl mr-2"></i>
+                            <span>45+ Quizzes</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-certificate text-green-400 text-xl mr-2"></i>
+                            <span>Certificate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-medium">Course Progress</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button id="start-course" class="btn-primary">
+                            Start Learning
+                        </button>
+                        <button id="view-certificate" class="btn-secondary" style="display: none;">
+                            Get Certificate
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-copyright text-white text-8xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons Section -->
+    <section id="lessons-section" class="py-20 bg-slate-900" style="display: none;">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title"><span class="purple-gradient-text">Course Lessons</span></h2>
+            <p class="text-center text-slate-300 max-w-2xl mx-auto mb-16">Complete all lessons and quizzes to earn your certificate</p>
+            
+            <div class="max-w-4xl mx-auto">
+                <div id="lessons-container">
+                    <!-- Lessons will be dynamically generated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lesson Modal -->
+    <div id="lesson-modal" class="modal">
+        <div class="modal-content lesson-modal">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold blue-gradient-text" id="lesson-title">Lesson Title</h3>
+                <div class="flex space-x-2">
+                    <button id="translate-lesson" class="btn-secondary">
+                        <i class="fas fa-language mr-2"></i> Translate
+                    </button>
+                    <button id="close-lesson-modal" class="text-slate-400 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="lesson-content" class="mb-8">
+                <!-- Lesson content will be dynamically inserted here -->
+            </div>
+            
+            <div class="lecture-nav">
+                <button id="prev-lecture" class="btn-secondary" style="display: none;">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <div>
+                    <span id="current-lecture">1</span> of <span id="total-lectures">3</span> Mini Lectures
+                </div>
+                <button id="next-lecture" class="btn-primary">
+                    Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content quiz-modal">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold blue-gradient-text" id="quiz-title">Quiz: Lesson Title</h3>
+                <div class="text-slate-400">
+                    Question <span id="current-question">1</span> of <span id="total-questions">3</span>
+                </div>
+            </div>
+            
+            <div id="quiz-content" class="mb-8">
+                <h4 class="text-xl font-bold mb-4" id="question-text">Question text will appear here</h4>
+                <div id="quiz-options">
+                    <!-- Quiz options will be dynamically inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-question" class="btn-secondary" style="display: none;">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button id="next-question" class="btn-primary">
+                    Next Question <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button id="submit-quiz" class="btn-primary" style="display: none;">
+                    Submit Quiz
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Result Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content quiz-modal">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                    <i class="fas fa-check text-2xl"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold mb-4" id="result-title">Lesson Completed!</h3>
+                <p class="text-slate-300 mb-6" id="result-message">You've successfully completed this lesson and quiz.</p>
+                
+                <div class="bg-slate-800 p-4 rounded-lg mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span>Score:</span>
+                        <span id="quiz-score">3/3</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Time:</span>
+                        <span id="quiz-time">1:30</span>
+                    </div>
+                </div>
+                
+                <button id="close-result-modal" class="btn-primary">
+                    Continue Learning
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div id="certificate-modal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold blue-gradient-text">Course Certificate</h3>
+                <button id="close-certificate-modal" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="certificate-preview" class="certificate-container mb-6">
+                <div class="certificate-border">
+                    <div class="mb-6">
+                        <h1 class="text-4xl font-bold text-slate-800 mb-2">Certificate of Completion</h1>
+                        <p class="text-slate-600">This is to certify that</p>
+                    </div>
+                    
+                    <div class="my-8">
+                        <h2 id="certificate-name" class="text-3xl font-bold blue-gradient-text" style="background: none; -webkit-text-fill-color: #3B82F6;">Student Name</h2>
+                        <p class="text-slate-600 mt-2">has successfully completed the</p>
+                    </div>
+                    
+                    <div class="my-8">
+                        <h3 class="text-2xl font-bold text-slate-800">C++ Programming Course</h3>
+                        <p class="text-slate-600 mt-2">with distinction</p>
+                    </div>
+                    
+                    <div class="flex justify-between mt-12">
+                        <div class="text-center">
+                            <div class="h-1 bg-slate-800 w-32 mx-auto mb-2"></div>
+                            <p class="text-slate-800 font-bold">Ashiq Bangash</p>
+                            <p class="text-slate-600 text-sm">Instructor</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="h-1 bg-slate-800 w-32 mx-auto mb-2"></div>
+                            <p class="text-slate-800 font-bold" id="certificate-date">Date</p>
+                            <p class="text-slate-600 text-sm">Date of Completion</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="font-bold mb-2">How would you like to receive your certificate?</h4>
+                <div class="flex space-x-4">
+                    <button id="download-certificate" class="btn-primary">
+                        <i class="fas fa-download mr-2"></i> Download PDF
+                    </button>
+                    <button id="email-certificate" class="btn-secondary">
+                        <i class="fas fa-envelope mr-2"></i> Send to Email
+                    </button>
+                    <button id="whatsapp-certificate" class="btn-secondary">
+                        <i class="fab fa-whatsapp mr-2"></i> Send via WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <div id="email-form" class="mb-6" style="display: none;">
+                <label class="block mb-2 font-medium">Email Address</label>
+                <div class="flex">
+                    <input type="email" id="certificate-email" class="form-input flex-grow mr-2" placeholder="Enter your email address">
+                    <button id="send-email" class="btn-primary">Send</button>
+                </div>
+            </div>
+            
+            <div id="whatsapp-form" class="mb-6" style="display: none;">
+                <label class="block mb-2 font-medium">WhatsApp Number</label>
+                <div class="flex">
+                    <input type="tel" id="certificate-phone" class="form-input flex-grow mr-2" placeholder="Enter your WhatsApp number">
+                    <button id="send-whatsapp" class="btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Translate Button -->
+    <button id="translate-btn" class="translate-btn" style="display: none;">
+        <i class="fas fa-language"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-slate-800 py-12" style="display: none;">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</h3>
+                    <p class="text-slate-400 mt-2">Software Engineer & Educator</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-slate-400 hover:text-primary-blue transition-colors">Home</a>
+                    <a href="courses.html" class="text-slate-400 hover:text-primary-blue transition-colors">Courses</a>
+                    <a href="cpp.html" class="text-primary-blue">C++ Course</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-700 mt-8 pt-8 text-center text-slate-400">
+                <p>&copy; 2023 Ashiq Bangash. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Authentication
+        const AUTH_KEY = "c_wp-9ad8fa9df";
+        
+        // Course data for C++
+        const courseData = {
+            title: "C++ Programming",
+            lessons: [
+                {
+                    id: 1,
+                    title: "Introduction to C++",
+                    miniLectures: [
+                        {
+                            title: "What is C++?",
+                            content: `
+                                <div class="mini-lecture">
+                                    <h4 class="text-lg font-bold mb-3">What is C++?</h4>
+                                    <p>C++ is a powerful, high-performance programming language created by Bjarne Stroustrup in 1985.</p>
+                                    <p>It's an extension of the C programming language with object-oriented features.</p>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Key Features:</h5>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>Object-Oriented Programming</li>
+                                        <li>High Performance</li>
+                                        <li>Memory Management Control</li>
+                                        <li>Platform Independence</li>
+                                        <li>Rich Standard Library</li>
+                                    </ul>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "Setting Up Environment",
+                            content: `
+                                <div class="mini-lecture">
+                                    <h4 class="text-lg font-bold mb-3">Setting Up Your C++ Environment</h4>
+                                    <p>To start programming in C++, you need a compiler and an IDE (Integrated Development Environment).</p>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Popular Options:</h5>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li><strong>Visual Studio Code</strong> with C++ extension</li>
+                                        <li><strong>Code::Blocks</strong> - Free, open-source IDE</li>
+                                        <li><strong>Dev-C++</strong> - Simple Windows IDE</li>
+                                        <li><strong>Online Compilers</strong> like repl.it or onlinegdb.com</li>
+                                    </ul>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Your First C++ Program:</h5>
+                                    <div class="code-block">
+                                        <span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span><br>
+                                        <span class="code-keyword">using namespace</span> std;<br>
+                                        <br>
+                                        <span class="code-keyword">int</span> main() {<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cout << <span class="code-string">"Hello, World!"</span> << endl;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> 0;<br>
+                                        }
+                                    </div>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "Basic Syntax",
+                            content: `
+                                <div class="mini-lecture">
+                                    <h4 class="text-lg font-bold mb-3">Basic C++ Syntax</h4>
+                                    <p>Understanding the basic structure of a C++ program is essential.</p>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Program Structure:</h5>
+                                    <div class="code-block">
+                                        <span class="code-comment">// Include header files</span><br>
+                                        <span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span><br>
+                                        <br>
+                                        <span class="code-comment">// Use standard namespace</span><br>
+                                        <span class="code-keyword">using namespace</span> std;<br>
+                                        <br>
+                                        <span class="code-comment">// Main function - program entry point</span><br>
+                                        <span class="code-keyword">int</span> main() {<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Your code here</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cout << <span class="code-string">"Learning C++!"</span> << endl;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> 0;<br>
+                                        }
+                                    </div>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Key Elements:</h5>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li><code>#include</code> - Includes header files</li>
+                                        <li><code>using namespace std</code> - Uses standard namespace</li>
+                                        <li><code>int main()</code> - Main function where execution begins</li>
+                                        <li><code>cout</code> - Output stream object</li>
+                                        <li><code>return 0</code> - Indicates successful execution</li>
+                                    </ul>
+                                </div>
+                            `
+                        }
+                    ],
+                    quiz: [
+                        {
+                            question: "Who created the C++ programming language?",
+                            options: [
+                                "Dennis Ritchie",
+                                "Bjarne Stroustrup",
+                                "James Gosling",
+                                "Guido van Rossum"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "Which of these is NOT a feature of C++?",
+                            options: [
+                                "Object-Oriented Programming",
+                                "Automatic Garbage Collection",
+                                "High Performance",
+                                "Memory Management Control"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "What is the entry point of a C++ program?",
+                            options: [
+                                "start() function",
+                                "main() function",
+                                "init() function",
+                                "run() function"
+                            ],
+                            correct: 1
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Variables and Data Types",
+                    miniLectures: [
+                        {
+                            title: "Variables in C++",
+                            content: `
+                                <div class="mini-lecture">
+                                    <h4 class="text-lg font-bold mb-3">Variables in C++</h4>
+                                    <p>Variables are used to store data in memory. In C++, you must declare a variable before using it.</p>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Variable Declaration:</h5>
+                                    <div class="code-block">
+                                        <span class="code-comment">// Syntax: data_type variable_name;</span><br>
+                                        <span class="code-keyword">int</span> age;<br>
+                                        <span class="code-keyword">double</span> salary;<br>
+                                        <span class="code-keyword">char</span> grade;<br>
+                                        <span class="code-keyword">bool</span> isStudent;<br>
+                                        string name;
+                                    </div>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Variable Initialization:</h5>
+                                    <div class="code-block">
+                                        <span class="code-comment">// Declaration and initialization</span><br>
+                                        <span class="code-keyword">int</span> age = <span class="code-keyword">25</span>;<br>
+                                        <span class="code-keyword">double</span> salary = <span class="code-keyword">50000.50</span>;<br>
+                                        <span class="code-keyword">char</span> grade = <span class="code-string">'A'</span>;<br>
+                                        <span class="code-keyword">bool</span> isStudent = <span class="code-keyword">true</span>;<br>
+                                        string name = <span class="code-string">"John Doe"</span>;
+                                    </div>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "Data Types",
+                            content: `
+                                <div class="mini-lecture">
+                                    <h4 class="text-lg font-bold mb-3">C++ Data Types</h4>
+                                    <p>C++ has several built-in data types to store different kinds of information.</p>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Basic Data Types:</h5>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li><strong>int</strong> - Integer numbers (e.g., 10, -5, 0)</li>
+                                        <li><strong>float/double</strong> - Floating-point numbers (e.g., 3.14, -2.5)</li>
+                                        <li><strong>char</strong> - Single character (e.g., 'A', 'b', '1')</li>
+                                        <li><strong>bool</strong> - Boolean values (true or false)</li>
+                                        <li><strong>string</strong> - Sequence of characters (text)</li>
+                                    </ul>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Data Type Sizes:</h5>
+                                    <div class="code-block">
+                                        <span class="code-comment">// Typical sizes on most systems</span><br>
+                                        <span class="code-keyword">int</span> - 4 bytes<br>
+                                        <span class="code-keyword">float</span> - 4 bytes<br>
+                                        <span class="code-keyword">double</span> - 8 bytes<br>
+                                        <span class="code-keyword">char</span> - 1 byte<br>
+                                        <span class="code-keyword">bool</span> - 1 byte
+                                    </div>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "Constants and Modifiers",
+                            content: `
+                                <div class="mini-lecture">
+                                    <h4 class="text-lg font-bold mb-3">Constants and Type Modifiers</h4>
+                                    <p>C++ allows you to create constants and modify data types for specific needs.</p>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Constants:</h5>
+                                    <div class="code-block">
+                                        <span class="code-comment">// Using const keyword</span><br>
+                                        <span class="code-keyword">const</span> <span class="code-keyword">int</span> MAX_SCORE = <span class="code-keyword">100</span>;<br>
+                                        <span class="code-keyword">const</span> <span class="code-keyword">double</span> PI = <span class="code-keyword">3.14159</span>;<br>
+                                        <span class="code-keyword">const</span> string COMPANY = <span class="code-string">"Tech Solutions"</span>;
+                                    </div>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Type Modifiers:</h5>
+                                    <div class="code-block">
+                                        <span class="code-comment">// Signed and unsigned modifiers</span><br>
+                                        <span class="code-keyword">signed int</span> negativeNumber = <span class="code-keyword">-10</span>;<br>
+                                        <span class="code-keyword">unsigned int</span> positiveOnly = <span class="code-keyword">50</span>;<br>
+                                        <br>
+                                        <span class="code-comment">// Short and long modifiers</span><br>
+                                        <span class="code-keyword">short int</span> smallNumber = <span class="code-keyword">5</span>;<br>
+                                        <span class="code-keyword">long int</span> bigNumber = <span class="code-keyword">1000000</span>;
+                                    </div>
+                                </div>
+                            `
+                        }
+                    ],
+                    quiz: [
+                        {
+                            question: "Which keyword is used to declare a constant in C++?",
+                            options: [
+                                "constant",
+                                "final",
+                                "const",
+                                "static"
+                            ],
+                            correct: 2
+                        },
+                        {
+                            question: "What is the size of an int data type in C++ on most systems?",
+                            options: [
+                                "2 bytes",
+                                "4 bytes",
+                                "8 bytes",
+                                "It depends on the system"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "Which data type would you use to store a single character?",
+                            options: [
+                                "string",
+                                "char",
+                                "character",
+                                "text"
+                            ],
+                            correct: 1
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Input and Output",
+                    miniLectures: [
+                        {
+                            title: "Basic I/O Operations",
+                            content: `
+                                <div class="mini-lecture">
+                                    <h4 class="text-lg font-bold mb-3">Basic Input and Output Operations</h4>
+                                    <p>C++ uses streams for input and output operations. The iostream header provides cin and cout.</p>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Output with cout:</h5>
+                                    <div class="code-block">
+                                        <span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span><br>
+                                        <span class="code-keyword">using namespace</span> std;<br>
+                                        <br>
+                                        <span class="code-keyword">int</span> main() {<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Output text</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cout << <span class="code-string">"Hello, C++!"</span>;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Output variables</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">int</span> age = <span class="code-keyword">25</span>;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cout << <span class="code-string">"Age: "</span> << age << endl;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> 0;<br>
+                                        }
+                                    </div>
+                                    
+                                    <h5 class="font-bold mt-4 mb-2">Input with cin:</h5>
+                                    <div class="code-block">
+                                        <span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span><br>
+                                        <span class="code-keyword">using namespace</span> std;<br>
+                                        <br>
+                                        <span class="code-keyword">int</span> main() {<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">int</span> age;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;string name;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cout << <span class="code-string">"Enter your name: "</span>;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cin >> name;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cout << <span class="code-string">"Enter your age: "</span>;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cin >> age;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;cout << <span class="code-string">"Hello "</span> << name << <span class="code-string">", you are "</span> << age << <span class="code-string">" years old."</span> << endl;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> 0;<br>
+                                        }
+                                    </div>
+                                </div>
+                            `
+                        }
+                    ],
+                    quiz: [
+                        {
+                            question: "Which operator is used with cout for output in C++?",
+                            options: [
+                                ">>",
+                                "<<",
+                                "->",
+                                "::"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "Which header file is required for input and output operations in C++?",
+                            options: [
+                                "<cstdio>",
+                                "<iostream>",
+                                "<inputoutput>",
+                                "<stream>"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "What does the 'endl' manipulator do?",
+                            options: [
+                                "Ends the program",
+                                "Inserts a newline and flushes the output buffer",
+                                "Declares the end of a function",
+                                "Terminates a string"
+                            ],
+                            correct: 1
+                        }
+                    ]
+                }
+                // Additional lessons would continue here...
+            ]
+        };
+
+        // Add more lessons to reach 15
+        for (let i = 4; i <= 15; i++) {
+            courseData.lessons.push({
+                id: i,
+                title: `C++ Lesson ${i}`,
+                miniLectures: [
+                    {
+                        title: `C++ Concept ${i}.1`,
+                        content: `<div class="mini-lecture"><h4 class="text-lg font-bold mb-3">C++ Concept ${i}.1</h4><p>This is detailed content for C++ lesson ${i}, mini-lecture 1.</p></div>`
+                    },
+                    {
+                        title: `C++ Concept ${i}.2`,
+                        content: `<div class="mini-lecture"><h4 class="text-lg font-bold mb-3">C++ Concept ${i}.2</h4><p>This is detailed content for C++ lesson ${i}, mini-lecture 2.</p></div>`
+                    },
+                    {
+                        title: `C++ Concept ${i}.3`,
+                        content: `<div class="mini-lecture"><h4 class="text-lg font-bold mb-3">C++ Concept ${i}.3</h4><p>This is detailed content for C++ lesson ${i}, mini-lecture 3.</p></div>`
+                    }
+                ],
+                quiz: [
+                    {
+                        question: `Sample question for C++ lesson ${i}?`,
+                        options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                        correct: 0
+                    },
+                    {
+                        question: `Another question for C++ lesson ${i}?`,
+                        options: ["Option A", "Option B", "Option C", "Option D"],
+                        correct: 1
+                    },
+                    {
+                        question: `Final question for C++ lesson ${i}?`,
+                        options: ["Choice 1", "Choice 2", "Choice 3", "Choice 4"],
+                        correct: 2
+                    }
+                ]
+            });
+        }
+
+        // State management
+        let currentUser = {
+            name: "Student",
+            completedLessons: [],
+            quizScores: {},
+            currentLecture: 0
+        };
+
+        let currentLesson = 0;
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let quizStartTime = null;
+        let currentMiniLecture = 0;
+
+        // DOM Elements
+        const authModal = document.getElementById('auth-modal');
+        const accessKeyInput = document.getElementById('access-key');
+        const submitKeyBtn = document.getElementById('submit-key');
+        const lessonsContainer = document.getElementById('lessons-container');
+        const lessonModal = document.getElementById('lesson-modal');
+        const quizModal = document.getElementById('quiz-modal');
+        const resultModal = document.getElementById('result-modal');
+        const certificateModal = document.getElementById('certificate-modal');
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.getElementById('progress-percent');
+        const startCourseBtn = document.getElementById('start-course');
+        const viewCertificateBtn = document.getElementById('view-certificate');
+        const translateBtn = document.getElementById('translate-btn');
+        const courseHeader = document.getElementById('course-header');
+        const lessonsSection = document.getElementById('lessons-section');
+        const footer = document.getElementById('footer');
+        const navbar = document.getElementById('navbar');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+            setupEventListeners();
+            
+            // Load user progress from localStorage
+            loadUserProgress();
+        });
+
+        function checkAuthentication() {
+            const savedKey = localStorage.getItem('cpp_course_key');
+            if (savedKey === AUTH_KEY) {
+                grantAccess();
+            } else {
+                authModal.style.display = 'flex';
+            }
+        }
+
+        function grantAccess() {
+            authModal.style.display = 'none';
+            navbar.style.display = 'block';
+            courseHeader.style.display = 'block';
+            lessonsSection.style.display = 'block';
+            footer.style.display = 'block';
+            translateBtn.style.display = 'flex';
+            
+            initializeCourse();
+        }
+
+        function initializeCourse() {
+            renderLessons();
+            updateProgress();
+            
+            // Check if user has completed all lessons
+            if (currentUser.completedLessons.length === courseData.lessons.length) {
+                viewCertificateBtn.style.display = 'block';
+                startCourseBtn.style.display = 'none';
+            }
+        }
+
+        function renderLessons() {
+            lessonsContainer.innerHTML = '';
+            
+            courseData.lessons.forEach((lesson, index) => {
+                const isCompleted = currentUser.completedLessons.includes(lesson.id);
+                const isLocked = index > 0 && !currentUser.completedLessons.includes(courseData.lessons[index-1].id);
+                
+                const lessonElement = document.createElement('div');
+                lessonElement.className = `lesson-item ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}`;
+                lessonElement.innerHTML = `
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center mr-4 ${
+                        isCompleted ? 'bg-green-500' : isLocked ? 'bg-slate-600' : 'bg-primary-blue'
+                    }">
+                        <i class="fas ${isCompleted ? 'fa-check' : isLocked ? 'fa-lock' : 'fa-play'} text-white"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="font-bold">${lesson.title}</h4>
+                        <p class="text-slate-400 text-sm">${isCompleted ? 'Completed' : isLocked ? 'Locked' : 'Click to start'}</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                `;
+                
+                if (!isLocked) {
+                    lessonElement.addEventListener('click', () => openLesson(lesson.id));
+                }
+                
+                lessonsContainer.appendChild(lessonElement);
+            });
+        }
+
+        function openLesson(lessonId) {
+            const lesson = courseData.lessons.find(l => l.id === lessonId);
+            if (!lesson) return;
+            
+            currentLesson = lessonId - 1;
+            currentMiniLecture = 0;
+            
+            document.getElementById('lesson-title').textContent = lesson.title;
+            showMiniLecture();
+            
+            lessonModal.classList.add('open');
+        }
+
+        function showMiniLecture() {
+            const lesson = courseData.lessons[currentLesson];
+            const miniLecture = lesson.miniLectures[currentMiniLecture];
+            
+            document.getElementById('lesson-content').innerHTML = miniLecture.content;
+            document.getElementById('current-lecture').textContent = currentMiniLecture + 1;
+            document.getElementById('total-lectures').textContent = lesson.miniLectures.length;
+            
+            // Show/hide navigation buttons
+            document.getElementById('prev-lecture').style.display = 
+                currentMiniLecture > 0 ? 'block' : 'none';
+            
+            document.getElementById('next-lecture').style.display = 
+                currentMiniLecture < lesson.miniLectures.length - 1 ? 'block' : 'none';
+            
+            // Change next button text on last mini-lecture
+            if (currentMiniLecture === lesson.miniLectures.length - 1) {
+                document.getElementById('next-lecture').innerHTML = 'Take Quiz <i class="fas fa-arrow-right ml-2"></i>';
+            } else {
+                document.getElementById('next-lecture').innerHTML = 'Next <i class="fas fa-arrow-right ml-2"></i>';
+            }
+        }
+
+        function nextMiniLecture() {
+            const lesson = courseData.lessons[currentLesson];
+            
+            if (currentMiniLecture < lesson.miniLectures.length - 1) {
+                currentMiniLecture++;
+                showMiniLecture();
+            } else {
+                // Last mini-lecture, open quiz
+                openQuiz();
+            }
+        }
+
+        function prevMiniLecture() {
+            if (currentMiniLecture > 0) {
+                currentMiniLecture--;
+                showMiniLecture();
+            }
+        }
+
+        function openQuiz() {
+            const lesson = courseData.lessons[currentLesson];
+            document.getElementById('quiz-title').textContent = `Quiz: ${lesson.title}`;
+            document.getElementById('total-questions').textContent = lesson.quiz.length;
+            
+            // Reset quiz state
+            currentQuestion = 0;
+            userAnswers = [];
+            quizStartTime = new Date();
+            
+            showQuestion();
+            quizModal.classList.add('open');
+            lessonModal.classList.remove('open');
+        }
+
+        function showQuestion() {
+            const lesson = courseData.lessons[currentLesson];
+            const question = lesson.quiz[currentQuestion];
+            
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option';
+                optionElement.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-6 h-6 rounded-full border-2 border-slate-400 mr-3 flex items-center justify-center">
+                            <div class="w-3 h-3 rounded-full bg-primary-blue" style="display: none;"></div>
+                        </div>
+                        <span>${option}</span>
+                    </div>
+                `;
+                
+                optionElement.addEventListener('click', () => selectOption(optionElement, index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Show/hide navigation buttons
+            document.getElementById('prev-question').style.display = 
+                currentQuestion > 0 ? 'block' : 'none';
+            
+            document.getElementById('next-question').style.display = 
+                currentQuestion < lesson.quiz.length - 1 ? 'block' : 'none';
+            
+            document.getElementById('submit-quiz').style.display = 
+                currentQuestion === lesson.quiz.length - 1 ? 'block' : 'none';
+        }
+
+        function selectOption(optionElement, optionIndex) {
+            // Deselect all options
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+                opt.querySelector('.bg-primary-blue').style.display = 'none';
+            });
+            
+            // Select clicked option
+            optionElement.classList.add('selected');
+            optionElement.querySelector('.bg-primary-blue').style.display = 'block';
+            
+            // Store user's answer
+            userAnswers[currentQuestion] = optionIndex;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < courseData.lessons[currentLesson].quiz.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            const lesson = courseData.lessons[currentLesson];
+            let score = 0;
+            
+            // Calculate score
+            userAnswers.forEach((answer, index) => {
+                if (answer === lesson.quiz[index].correct) {
+                    score++;
+                }
+            });
+            
+            // Calculate time taken
+            const endTime = new Date();
+            const timeTaken = Math.floor((endTime - quizStartTime) / 1000);
+            const minutes = Math.floor(timeTaken / 60);
+            const seconds = timeTaken % 60;
+            
+            // Update UI
+            document.getElementById('quiz-score').textContent = `${score}/${lesson.quiz.length}`;
+            document.getElementById('quiz-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Mark lesson as completed if passed (at least 60%)
+            if (score >= Math.ceil(lesson.quiz.length * 0.6)) {
+                if (!currentUser.completedLessons.includes(lesson.id)) {
+                    currentUser.completedLessons.push(lesson.id);
+                    saveUserProgress();
+                }
+                
+                document.getElementById('result-title').textContent = 'Lesson Completed!';
+                document.getElementById('result-message').textContent = 
+                    `Congratulations! You've successfully completed "${lesson.title}" with a score of ${score}/${lesson.quiz.length}.`;
+            } else {
+                document.getElementById('result-title').textContent = 'Try Again';
+                document.getElementById('result-message').textContent = 
+                    `You scored ${score}/${lesson.quiz.length}. You need at least ${Math.ceil(lesson.quiz.length * 0.6)} correct answers to complete this lesson.`;
+            }
+            
+            // Store quiz score
+            currentUser.quizScores[lesson.id] = score;
+            
+            // Update progress and UI
+            updateProgress();
+            renderLessons();
+            
+            // Show result modal
+            quizModal.classList.remove('open');
+            resultModal.classList.add('open');
+        }
+
+        function updateProgress() {
+            const progress = (currentUser.completedLessons.length / courseData.lessons.length) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+            
+            // Show certificate button if all lessons completed
+            if (currentUser.completedLessons.length === courseData.lessons.length) {
+                viewCertificateBtn.style.display = 'block';
+                startCourseBtn.style.display = 'none';
+            }
+        }
+
+        function openCertificateModal() {
+            // Set certificate details
+            document.getElementById('certificate-name').textContent = currentUser.name;
+            document.getElementById('certificate-date').textContent = new Date().toLocaleDateString();
+            
+            certificateModal.classList.add('open');
+        }
+
+        function downloadCertificate() {
+            // In a real implementation, this would generate a PDF certificate
+            alert("Certificate PDF would be generated and downloaded. In a real implementation, this would use jsPDF and html2canvas libraries.");
+        }
+
+        function showEmailForm() {
+            document.getElementById('email-form').style.display = 'block';
+            document.getElementById('whatsapp-form').style.display = 'none';
+        }
+
+        function showWhatsappForm() {
+            document.getElementById('whatsapp-form').style.display = 'block';
+            document.getElementById('email-form').style.display = 'none';
+        }
+
+        function sendCertificate() {
+            const email = document.getElementById('certificate-email').value;
+            const phone = document.getElementById('certificate-phone').value;
+            
+            if (email) {
+                alert(`Certificate would be sent to ${email}. In a real implementation, this would connect to a backend service.`);
+            } else if (phone) {
+                alert(`Certificate would be sent to WhatsApp number ${phone}. In a real implementation, this would connect to a backend service.`);
+            }
+            
+            // Reset forms
+            document.getElementById('certificate-email').value = '';
+            document.getElementById('certificate-phone').value = '';
+            document.getElementById('email-form').style.display = 'none';
+            document.getElementById('whatsapp-form').style.display = 'none';
+        }
+
+        // Google Translate function
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,ur',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+
+        function setupEventListeners() {
+            // Authentication
+            submitKeyBtn.addEventListener('click', () => {
+                const enteredKey = accessKeyInput.value.trim();
+                if (enteredKey === AUTH_KEY) {
+                    localStorage.setItem('cpp_course_key', AUTH_KEY);
+                    grantAccess();
+                } else {
+                    alert("Invalid access key. Please try again.");
+                    accessKeyInput.value = '';
+                }
+            });
+            
+            accessKeyInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    submitKeyBtn.click();
+                }
+            });
+
+            // Mobile menu
+            document.getElementById('mobile-menu-button').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('open');
+            });
+            
+            document.getElementById('close-mobile-menu').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.remove('open');
+            });
+            
+            // Modal close buttons
+            document.getElementById('close-lesson-modal').addEventListener('click', () => {
+                lessonModal.classList.remove('open');
+            });
+            
+            document.getElementById('close-certificate-modal').addEventListener('click', () => {
+                certificateModal.classList.remove('open');
+            });
+            
+            // Lesson navigation
+            document.getElementById('next-lecture').addEventListener('click', nextMiniLecture);
+            document.getElementById('prev-lecture').addEventListener('click', prevMiniLecture);
+            
+            // Quiz navigation
+            document.getElementById('next-question').addEventListener('click', nextQuestion);
+            document.getElementById('prev-question').addEventListener('click', prevQuestion);
+            document.getElementById('submit-quiz').addEventListener('click', submitQuiz);
+            
+            // Result modal
+            document.getElementById('close-result-modal').addEventListener('click', () => {
+                resultModal.classList.remove('open');
+            });
+            
+            // Certificate actions
+            document.getElementById('view-certificate').addEventListener('click', openCertificateModal);
+            document.getElementById('download-certificate').addEventListener('click', downloadCertificate);
+            document.getElementById('email-certificate').addEventListener('click', showEmailForm);
+            document.getElementById('whatsapp-certificate').addEventListener('click', showWhatsappForm);
+            document.getElementById('send-email').addEventListener('click', sendCertificate);
+            document.getElementById('send-whatsapp').addEventListener('click', sendCertificate);
+            
+            // Start course button
+            document.getElementById('start-course').addEventListener('click', () => {
+                openLesson(1); // Start with first lesson
+            });
+            
+            // Translate button
+            translateBtn.addEventListener('click', () => {
+                // Toggle Google Translate widget
+                const translateElement = document.getElementById('google_translate_element');
+                if (translateElement) {
+                    translateElement.style.display = translateElement.style.display === 'none' ? 'block' : 'none';
+                }
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === lessonModal) lessonModal.classList.remove('open');
+                if (e.target === quizModal) quizModal.classList.remove('open');
+                if (e.target === resultModal) resultModal.classList.remove('open');
+                if (e.target === certificateModal) certificateModal.classList.remove('open');
+            });
+        }
+
+        // Save user progress to localStorage
+        function saveUserProgress() {
+            const userData = {
+                name: currentUser.name,
+                completedLessons: currentUser.completedLessons,
+                quizScores: currentUser.quizScores,
+                lastActivity: new Date().toISOString()
+            };
+            localStorage.setItem('cpp_course_progress', JSON.stringify(userData));
+        }
+
+        // Load user progress from localStorage
+        function loadUserProgress() {
+            const savedProgress = localStorage.getItem('cpp_course_progress');
+            if (savedProgress) {
+                const userData = JSON.parse(savedProgress);
+                currentUser.completedLessons = userData.completedLessons || [];
+                currentUser.quizScores = userData.quizScores || {};
+                
+                // Update UI if course is initialized
+                if (courseHeader.style.display !== 'none') {
+                    updateProgress();
+                    renderLessons();
+                }
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            if (navbar.style.display !== 'none') {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+            }
+        });
+    </script>
+
+    <!-- Google Translate Element -->
+    <div id="google_translate_element" style="display: none; position: fixed; top: 80px; right: 20px; z-index: 1000; background: white; padding: 10px; border-radius: 5px;"></div>
+</body>
+</html>
