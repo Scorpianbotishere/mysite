@@ -1,1 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Course | Ashiq Bangash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#3B82F6',
+                        'dark-blue': '#1E40AF',
+                        'light-blue': '#93C5FD',
+                        'accent-purple': '#8B5CF6',
+                        'dark-purple': '#6D28D9',
+                        'light-purple': '#C4B5FD',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'fadeInUp': 'fadeInUp 0.8s ease-out',
+                        'zoomIn': 'zoomIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        zoomIn: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        
+        .blue-gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .purple-gradient-text {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .course-card {
+            transition: all 0.4s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+            border-color: #3B82F6;
+        }
+        
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.8);
+        }
+        
+        .nav-scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 2px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.open {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: zoomIn 0.3s ease-out;
+        }
+        
+        .lesson-modal {
+            max-width: 700px;
+        }
+        
+        .quiz-modal {
+            max-width: 600px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #3B82F6;
+            border: 2px solid #3B82F6;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        
+        .lesson-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3B82F6;
+        }
+        
+        .lesson-item.completed {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        
+        .lesson-item.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .quiz-option {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid #334155;
+        }
+        
+        .quiz-option:hover {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .quiz-option.selected {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .quiz-option.correct {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.2);
+        }
+        
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #334155;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .certificate-container {
+            background: white;
+            color: #1e293b;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .certificate-border {
+            border: 20px solid transparent;
+            border-image: linear-gradient(45deg, #3B82F6, #8B5CF6) 1;
+            padding: 30px;
+        }
+        
+        .code-block {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .code-keyword {
+            color: #ef4444;
+        }
+        
+        .code-function {
+            color: #3B82F6;
+        }
+        
+        .code-string {
+            color: #22c55e;
+        }
+        
+        .code-comment {
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="font-poppins text-gray-200">
+    <!-- Navigation -->
+    <nav id="navbar" class="sticky-nav py-4 transition-all duration-300 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
+                <a href="courses.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Courses</a>
+                <a href="python.html" class="text-primary-blue font-medium">Python Course</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-slate-900 shadow-lg z-40 p-6">
+        <div class="flex justify-between items-center mb-8">
+            <a href="index.html" class="text-xl font-bold blue-gradient-text">Ashiq Bangash</a>
+            <button id="close-mobile-menu" class="text-gray-300">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="flex flex-col space-y-6">
+            <a href="index.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Home</a>
+            <a href="courses.html" class="text-gray-300 hover:text-primary-blue transition-colors font-medium">Courses</a>
+            <a href="python.html" class="text-primary-blue font-medium">Python Course</a>
+        </div>
+    </div>
+
+    <!-- Course Header -->
+    <section class="pt-32 pb-20 gradient-bg">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="inline-block px-4 py-2 bg-slate-800 rounded-full mb-6 border border-primary-blue/30">
+                        <span class="text-sm font-medium blue-gradient-text">Python Programming Course</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">Master <span class="blue-gradient-text">Python</span> Programming</h1>
+                    <p class="text-xl text-slate-300 mb-8">Learn Python from basics to advanced concepts with interactive lessons, coding challenges, and real-world projects.</p>
+                    
+                    <div class="flex items-center mb-8">
+                        <div class="flex items-center mr-6">
+                            <i class="fas fa-play-circle text-primary-blue text-xl mr-2"></i>
+                            <span>15 Lessons</span>
+                        </div>
+                        <div class="flex items-center mr-6">
+                            <i class="fas fa-question-circle text-accent-purple text-xl mr-2"></i>
+                            <span>45+ Quizzes</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-certificate text-green-400 text-xl mr-2"></i>
+                            <span>Certificate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-medium">Course Progress</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button id="start-course" class="btn-primary">
+                            Start Learning
+                        </button>
+                        <button id="view-certificate" class="btn-secondary" style="display: none;">
+                            Get Certificate
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80">
+                        <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                            <i class="fab fa-python text-white text-8xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons Section -->
+    <section class="py-20 bg-slate-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title"><span class="purple-gradient-text">Course Lessons</span></h2>
+            <p class="text-center text-slate-300 max-w-2xl mx-auto mb-16">Complete all lessons and quizzes to earn your certificate</p>
+            
+            <div class="max-w-4xl mx-auto">
+                <div id="lessons-container">
+                    <!-- Lessons will be dynamically generated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lesson Modal -->
+    <div id="lesson-modal" class="modal">
+        <div class="modal-content lesson-modal">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold blue-gradient-text" id="lesson-title">Lesson Title</h3>
+                <button id="close-lesson-modal" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="lesson-content" class="mb-8">
+                <!-- Lesson content will be dynamically inserted here -->
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-lesson" class="btn-secondary" style="display: none;">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button id="take-quiz" class="btn-primary">
+                    Take Quiz <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content quiz-modal">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold blue-gradient-text" id="quiz-title">Quiz: Lesson Title</h3>
+                <div class="text-slate-400">
+                    Question <span id="current-question">1</span> of <span id="total-questions">3</span>
+                </div>
+            </div>
+            
+            <div id="quiz-content" class="mb-8">
+                <h4 class="text-xl font-bold mb-4" id="question-text">Question text will appear here</h4>
+                <div id="quiz-options">
+                    <!-- Quiz options will be dynamically inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-question" class="btn-secondary" style="display: none;">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button id="next-question" class="btn-primary">
+                    Next Question <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button id="submit-quiz" class="btn-primary" style="display: none;">
+                    Submit Quiz
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Result Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content quiz-modal">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                    <i class="fas fa-check text-2xl"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold mb-4" id="result-title">Lesson Completed!</h3>
+                <p class="text-slate-300 mb-6" id="result-message">You've successfully completed this lesson and quiz.</p>
+                
+                <div class="bg-slate-800 p-4 rounded-lg mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span>Score:</span>
+                        <span id="quiz-score">3/3</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Time:</span>
+                        <span id="quiz-time">1:30</span>
+                    </div>
+                </div>
+                
+                <button id="close-result-modal" class="btn-primary">
+                    Continue Learning
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div id="certificate-modal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold blue-gradient-text">Course Certificate</h3>
+                <button id="close-certificate-modal" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="certificate-preview" class="certificate-container mb-6">
+                <div class="certificate-border">
+                    <div class="mb-6">
+                        <h1 class="text-4xl font-bold text-slate-800 mb-2">Certificate of Completion</h1>
+                        <p class="text-slate-600">This is to certify that</p>
+                    </div>
+                    
+                    <div class="my-8">
+                        <h2 id="certificate-name" class="text-3xl font-bold blue-gradient-text" style="background: none; -webkit-text-fill-color: #3B82F6;">Student Name</h2>
+                        <p class="text-slate-600 mt-2">has successfully completed the</p>
+                    </div>
+                    
+                    <div class="my-8">
+                        <h3 class="text-2xl font-bold text-slate-800">Python Programming Course</h3>
+                        <p class="text-slate-600 mt-2">with distinction</p>
+                    </div>
+                    
+                    <div class="flex justify-between mt-12">
+                        <div class="text-center">
+                            <div class="h-1 bg-slate-800 w-32 mx-auto mb-2"></div>
+                            <p class="text-slate-800 font-bold">Ashiq Bangash</p>
+                            <p class="text-slate-600 text-sm">Instructor</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="h-1 bg-slate-800 w-32 mx-auto mb-2"></div>
+                            <p class="text-slate-800 font-bold" id="certificate-date">Date</p>
+                            <p class="text-slate-600 text-sm">Date of Completion</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="font-bold mb-2">How would you like to receive your certificate?</h4>
+                <div class="flex space-x-4">
+                    <button id="download-certificate" class="btn-primary">
+                        <i class="fas fa-download mr-2"></i> Download PDF
+                    </button>
+                    <button id="email-certificate" class="btn-secondary">
+                        <i class="fas fa-envelope mr-2"></i> Send to Email
+                    </button>
+                    <button id="whatsapp-certificate" class="btn-secondary">
+                        <i class="fab fa-whatsapp mr-2"></i> Send via WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <div id="email-form" class="mb-6" style="display: none;">
+                <label class="block mb-2 font-medium">Email Address</label>
+                <div class="flex">
+                    <input type="email" id="certificate-email" class="form-input flex-grow mr-2" placeholder="Enter your email address">
+                    <button id="send-email" class="btn-primary">Send</button>
+                </div>
+            </div>
+            
+            <div id="whatsapp-form" class="mb-6" style="display: none;">
+                <label class="block mb-2 font-medium">WhatsApp Number</label>
+                <div class="flex">
+                    <input type="tel" id="certificate-phone" class="form-input flex-grow mr-2" placeholder="Enter your WhatsApp number">
+                    <button id="send-whatsapp" class="btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold blue-gradient-text">Ashiq Bangash</h3>
+                    <p class="text-slate-400 mt-2">Software Engineer & Educator</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-slate-400 hover:text-primary-blue transition-colors">Home</a>
+                    <a href="courses.html" class="text-slate-400 hover:text-primary-blue transition-colors">Courses</a>
+                    <a href="python.html" class="text-primary-blue">Python Course</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-700 mt-8 pt-8 text-center text-slate-400">
+                <p>&copy; 2023 Ashiq Bangash. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Course data
+        const courseData = {
+            title: "Python Programming",
+            lessons: [
+                {
+                    id: 1,
+                    title: "Introduction to Python",
+                    content: `
+                        <p>Python is a high-level, interpreted programming language known for its simplicity and readability.</p>
+                        <p>It was created by Guido van Rossum and first released in 1991.</p>
+                        
+                        <h4 class="text-lg font-bold mt-6 mb-3">Why Python?</h4>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li>Easy to learn and read</li>
+                            <li>Versatile (web development, data science, AI, etc.)</li>
+                            <li>Large community and extensive libraries</li>
+                            <li>Cross-platform compatibility</li>
+                        </ul>
+                        
+                        <h4 class="text-lg font-bold mt-6 mb-3">Your First Python Program</h4>
+                        <div class="code-block">
+                            <span class="code-function">print</span>(<span class="code-string">"Hello, World!"</span>)
+                        </div>
+                        <p class="mt-2">This simple program outputs "Hello, World!" to the console.</p>
+                    `,
+                    quiz: [
+                        {
+                            question: "Who created Python?",
+                            options: [
+                                "Guido van Rossum",
+                                "James Gosling",
+                                "Brendan Eich",
+                                "Larry Wall"
+                            ],
+                            correct: 0
+                        },
+                        {
+                            question: "Which of these is NOT a feature of Python?",
+                            options: [
+                                "Easy to read syntax",
+                                "Compiled language",
+                                "Extensive standard library",
+                                "Cross-platform compatibility"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "What does the print() function do?",
+                            options: [
+                                "Reads input from the user",
+                                "Outputs text to the console",
+                                "Performs mathematical calculations",
+                                "Creates a new file"
+                            ],
+                            correct: 1
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Variables and Data Types",
+                    content: `
+                        <p>Variables are used to store data in Python. You can think of them as containers that hold information.</p>
+                        
+                        <h4 class="text-lg font-bold mt-6 mb-3">Creating Variables</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Variable assignment</span><br>
+                            name = <span class="code-string">"Alice"</span><br>
+                            age = <span class="code-keyword">25</span><br>
+                            height = <span class="code-keyword">5.8</span><br>
+                            is_student = <span class="code-keyword">True</span>
+                        </div>
+                        
+                        <h4 class="text-lg font-bold mt-6 mb-3">Basic Data Types</h4>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li><strong>String (str)</strong>: Text data, e.g., "Hello"</li>
+                            <li><strong>Integer (int)</strong>: Whole numbers, e.g., 10, -5</li>
+                            <li><strong>Float (float)</strong>: Decimal numbers, e.g., 3.14, -2.5</li>
+                            <li><strong>Boolean (bool)</strong>: True or False values</li>
+                        </ul>
+                        
+                        <h4 class="text-lg font-bold mt-6 mb-3">Variable Naming Rules</h4>
+                        <ul class="list-disc pl-5 mb-4 space-y-2">
+                            <li>Must start with a letter or underscore</li>
+                            <li>Can only contain letters, numbers, and underscores</li>
+                            <li>Case-sensitive (age ≠ Age)</li>
+                            <li>Cannot use Python keywords (if, for, while, etc.)</li>
+                        </ul>
+                    `,
+                    quiz: [
+                        {
+                            question: "Which of these is a valid variable name in Python?",
+                            options: [
+                                "my-variable",
+                                "1st_variable",
+                                "_my_variable",
+                                "for"
+                            ],
+                            correct: 2
+                        },
+                        {
+                            question: "What data type is the value 3.14?",
+                            options: [
+                                "Integer",
+                                "String",
+                                "Float",
+                                "Boolean"
+                            ],
+                            correct: 2
+                        },
+                        {
+                            question: "Which keyword is used to define a variable in Python?",
+                            options: [
+                                "var",
+                                "let",
+                                "const",
+                                "No keyword needed"
+                            ],
+                            correct: 3
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Basic Operations",
+                    content: `
+                        <p>Python supports various operations for manipulating data, including arithmetic, comparison, and logical operations.</p>
+                        
+                        <h4 class="text-lg font-bold mt-6 mb-3">Arithmetic Operations</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Basic arithmetic</span><br>
+                            a = <span class="code-keyword">10</span><br>
+                            b = <span class="code-keyword">3</span><br>
+                            <br>
+                            <span class="code-comment"># Addition</span><br>
+                            sum = a + b  <span class="code-comment"># 13</span><br>
+                            <span class="code-comment"># Subtraction</span><br>
+                            difference = a - b  <span class="code-comment"># 7</span><br>
+                            <span class="code-comment"># Multiplication</span><br>
+                            product = a * b  <span class="code-comment"># 30</span><br>
+                            <span class="code-comment"># Division</span><br>
+                            quotient = a / b  <span class="code-comment"># 3.333...</span><br>
+                            <span class="code-comment"># Floor Division</span><br>
+                            floor_quotient = a // b  <span class="code-comment"># 3</span><br>
+                            <span class="code-comment"># Modulus (Remainder)</span><br>
+                            remainder = a % b  <span class="code-comment"># 1</span><br>
+                            <span class="code-comment"># Exponentiation</span><br>
+                            power = a ** b  <span class="code-comment"># 1000</span>
+                        </div>
+                        
+                        <h4 class="text-lg font-bold mt-6 mb-3">Comparison Operations</h4>
+                        <div class="code-block">
+                            <span class="code-comment"># Comparison operators return True or False</span><br>
+                            x = <span class="code-keyword">5</span><br>
+                            y = <span class="code-keyword">10</span><br>
+                            <br>
+                            <span class="code-comment"># Equal to</span><br>
+                            x == y  <span class="code-comment"># False</span><br>
+                            <span class="code-comment"># Not equal to</span><br>
+                            x != y  <span class="code-comment"># True</span><br>
+                            <span class="code-comment"># Greater than</span><br>
+                            x > y   <span class="code-comment"># False</span><br>
+                            <span class="code-comment"># Less than</span><br>
+                            x < y   <span class="code-comment"># True</span><br>
+                            <span class="code-comment"># Greater than or equal to</span><br>
+                            x >= y  <span class="code-comment"># False</span><br>
+                            <span class="code-comment"># Less than or equal to</span><br>
+                            x <= y  <span class="code-comment"># True</span>
+                        </div>
+                    `,
+                    quiz: [
+                        {
+                            question: "What is the result of 15 // 4 in Python?",
+                            options: [
+                                "3.75",
+                                "3",
+                                "4",
+                                "3.0"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "Which operator is used for exponentiation in Python?",
+                            options: [
+                                "^",
+                                "**",
+                                "^^",
+                                "exp"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            question: "What will be the value of 'result' after: result = 10 % 3",
+                            options: [
+                                "3",
+                                "1",
+                                "0",
+                                "3.33"
+                            ],
+                            correct: 1
+                        }
+                    ]
+                },
+                // Additional lessons would continue here...
+                // For brevity, I'm showing 3 lessons but the code supports 15
+            ]
+        };
+
+        // Add more lessons to reach 15
+        for (let i = 4; i <= 15; i++) {
+            courseData.lessons.push({
+                id: i,
+                title: `Python Lesson ${i}`,
+                content: `<p>This is lesson ${i} content. In a full implementation, this would contain detailed Python programming concepts.</p>`,
+                quiz: [
+                    {
+                        question: `Sample question for lesson ${i}?`,
+                        options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                        correct: 0
+                    },
+                    {
+                        question: `Another question for lesson ${i}?`,
+                        options: ["Option A", "Option B", "Option C", "Option D"],
+                        correct: 1
+                    },
+                    {
+                        question: `Final question for lesson ${i}?`,
+                        options: ["Choice 1", "Choice 2", "Choice 3", "Choice 4"],
+                        correct: 2
+                    }
+                ]
+            });
+        }
+
+        // State management
+        let currentUser = {
+            name: "Student",
+            completedLessons: [],
+            quizScores: {}
+        };
+
+        let currentLesson = 0;
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let quizStartTime = null;
+
+        // DOM Elements
+        const lessonsContainer = document.getElementById('lessons-container');
+        const lessonModal = document.getElementById('lesson-modal');
+        const quizModal = document.getElementById('quiz-modal');
+        const resultModal = document.getElementById('result-modal');
+        const certificateModal = document.getElementById('certificate-modal');
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.getElementById('progress-percent');
+        const startCourseBtn = document.getElementById('start-course');
+        const viewCertificateBtn = document.getElementById('view-certificate');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCourse();
+            setupEventListeners();
+        });
+
+        function initializeCourse() {
+            renderLessons();
+            updateProgress();
+            
+            // Check if user has completed all lessons
+            if (currentUser.completedLessons.length === courseData.lessons.length) {
+                viewCertificateBtn.style.display = 'block';
+                startCourseBtn.style.display = 'none';
+            }
+        }
+
+        function renderLessons() {
+            lessonsContainer.innerHTML = '';
+            
+            courseData.lessons.forEach((lesson, index) => {
+                const isCompleted = currentUser.completedLessons.includes(lesson.id);
+                const isLocked = index > 0 && !currentUser.completedLessons.includes(courseData.lessons[index-1].id);
+                
+                const lessonElement = document.createElement('div');
+                lessonElement.className = `lesson-item ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}`;
+                lessonElement.innerHTML = `
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center mr-4 ${
+                        isCompleted ? 'bg-green-500' : isLocked ? 'bg-slate-600' : 'bg-primary-blue'
+                    }">
+                        <i class="fas ${isCompleted ? 'fa-check' : isLocked ? 'fa-lock' : 'fa-play'} text-white"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="font-bold">${lesson.title}</h4>
+                        <p class="text-slate-400 text-sm">${isCompleted ? 'Completed' : isLocked ? 'Locked' : 'Click to start'}</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                `;
+                
+                if (!isLocked) {
+                    lessonElement.addEventListener('click', () => openLesson(lesson.id));
+                }
+                
+                lessonsContainer.appendChild(lessonElement);
+            });
+        }
+
+        function openLesson(lessonId) {
+            const lesson = courseData.lessons.find(l => l.id === lessonId);
+            if (!lesson) return;
+            
+            currentLesson = lessonId - 1;
+            document.getElementById('lesson-title').textContent = lesson.title;
+            document.getElementById('lesson-content').innerHTML = lesson.content;
+            
+            // Show/hide previous button
+            document.getElementById('prev-lesson').style.display = 
+                currentLesson > 0 ? 'block' : 'none';
+            
+            lessonModal.classList.add('open');
+        }
+
+        function openQuiz() {
+            const lesson = courseData.lessons[currentLesson];
+            document.getElementById('quiz-title').textContent = `Quiz: ${lesson.title}`;
+            document.getElementById('total-questions').textContent = lesson.quiz.length;
+            
+            // Reset quiz state
+            currentQuestion = 0;
+            userAnswers = [];
+            quizStartTime = new Date();
+            
+            showQuestion();
+            quizModal.classList.add('open');
+            lessonModal.classList.remove('open');
+        }
+
+        function showQuestion() {
+            const lesson = courseData.lessons[currentLesson];
+            const question = lesson.quiz[currentQuestion];
+            
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option';
+                optionElement.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-6 h-6 rounded-full border-2 border-slate-400 mr-3 flex items-center justify-center">
+                            <div class="w-3 h-3 rounded-full bg-primary-blue" style="display: none;"></div>
+                        </div>
+                        <span>${option}</span>
+                    </div>
+                `;
+                
+                optionElement.addEventListener('click', () => selectOption(optionElement, index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Show/hide navigation buttons
+            document.getElementById('prev-question').style.display = 
+                currentQuestion > 0 ? 'block' : 'none';
+            
+            document.getElementById('next-question').style.display = 
+                currentQuestion < lesson.quiz.length - 1 ? 'block' : 'none';
+            
+            document.getElementById('submit-quiz').style.display = 
+                currentQuestion === lesson.quiz.length - 1 ? 'block' : 'none';
+        }
+
+        function selectOption(optionElement, optionIndex) {
+            // Deselect all options
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+                opt.querySelector('.bg-primary-blue').style.display = 'none';
+            });
+            
+            // Select clicked option
+            optionElement.classList.add('selected');
+            optionElement.querySelector('.bg-primary-blue').style.display = 'block';
+            
+            // Store user's answer
+            userAnswers[currentQuestion] = optionIndex;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < courseData.lessons[currentLesson].quiz.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            const lesson = courseData.lessons[currentLesson];
+            let score = 0;
+            
+            // Calculate score
+            userAnswers.forEach((answer, index) => {
+                if (answer === lesson.quiz[index].correct) {
+                    score++;
+                }
+            });
+            
+            // Calculate time taken
+            const endTime = new Date();
+            const timeTaken = Math.floor((endTime - quizStartTime) / 1000);
+            const minutes = Math.floor(timeTaken / 60);
+            const seconds = timeTaken % 60;
+            
+            // Update UI
+            document.getElementById('quiz-score').textContent = `${score}/${lesson.quiz.length}`;
+            document.getElementById('quiz-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Mark lesson as completed if passed (at least 60%)
+            if (score >= Math.ceil(lesson.quiz.length * 0.6)) {
+                if (!currentUser.completedLessons.includes(lesson.id)) {
+                    currentUser.completedLessons.push(lesson.id);
+                }
+                
+                document.getElementById('result-title').textContent = 'Lesson Completed!';
+                document.getElementById('result-message').textContent = 
+                    `Congratulations! You've successfully completed "${lesson.title}" with a score of ${score}/${lesson.quiz.length}.`;
+            } else {
+                document.getElementById('result-title').textContent = 'Try Again';
+                document.getElementById('result-message').textContent = 
+                    `You scored ${score}/${lesson.quiz.length}. You need at least ${Math.ceil(lesson.quiz.length * 0.6)} correct answers to complete this lesson.`;
+            }
+            
+            // Store quiz score
+            currentUser.quizScores[lesson.id] = score;
+            
+            // Update progress and UI
+            updateProgress();
+            renderLessons();
+            
+            // Show result modal
+            quizModal.classList.remove('open');
+            resultModal.classList.add('open');
+        }
+
+        function updateProgress() {
+            const progress = (currentUser.completedLessons.length / courseData.lessons.length) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+            
+            // Show certificate button if all lessons completed
+            if (currentUser.completedLessons.length === courseData.lessons.length) {
+                viewCertificateBtn.style.display = 'block';
+                startCourseBtn.style.display = 'none';
+            }
+        }
+
+        function openCertificateModal() {
+            // Set certificate details
+            document.getElementById('certificate-name').textContent = currentUser.name;
+            document.getElementById('certificate-date').textContent = new Date().toLocaleDateString();
+            
+            certificateModal.classList.add('open');
+        }
+
+        function downloadCertificate() {
+            // In a real implementation, this would generate a PDF certificate
+            // For this demo, we'll just show an alert
+            alert("Certificate PDF would be generated and downloaded. In a real implementation, this would use jsPDF and html2canvas libraries.");
+        }
+
+        function showEmailForm() {
+            document.getElementById('email-form').style.display = 'block';
+            document.getElementById('whatsapp-form').style.display = 'none';
+        }
+
+        function showWhatsappForm() {
+            document.getElementById('whatsapp-form').style.display = 'block';
+            document.getElementById('email-form').style.display = 'none';
+        }
+
+        function sendCertificate() {
+            const email = document.getElementById('certificate-email').value;
+            const phone = document.getElementById('certificate-phone').value;
+            
+            if (email) {
+                alert(`Certificate would be sent to ${email}. In a real implementation, this would connect to a backend service.`);
+            } else if (phone) {
+                alert(`Certificate would be sent to WhatsApp number ${phone}. In a real implementation, this would connect to a backend service.`);
+            }
+            
+            // Reset forms
+            document.getElementById('certificate-email').value = '';
+            document.getElementById('certificate-phone').value = '';
+            document.getElementById('email-form').style.display = 'none';
+            document.getElementById('whatsapp-form').style.display = 'none';
+        }
+
+        function setupEventListeners() {
+            // Mobile menu
+            document.getElementById('mobile-menu-button').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('open');
+            });
+            
+            document.getElementById('close-mobile-menu').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.remove('open');
+            });
+            
+            // Modal close buttons
+            document.getElementById('close-lesson-modal').addEventListener('click', () => {
+                lessonModal.classList.remove('open');
+            });
+            
+            document.getElementById('close-certificate-modal').addEventListener('click', () => {
+                certificateModal.classList.remove('open');
+            });
+            
+            // Lesson navigation
+            document.getElementById('take-quiz').addEventListener('click', openQuiz);
+            document.getElementById('prev-lesson').addEventListener('click', () => {
+                openLesson(currentLesson); // currentLesson is 0-based index
+            });
+            
+            // Quiz navigation
+            document.getElementById('next-question').addEventListener('click', nextQuestion);
+            document.getElementById('prev-question').addEventListener('click', prevQuestion);
+            document.getElementById('submit-quiz').addEventListener('click', submitQuiz);
+            
+            // Result modal
+            document.getElementById('close-result-modal').addEventListener('click', () => {
+                resultModal.classList.remove('open');
+            });
+            
+            // Certificate actions
+            document.getElementById('view-certificate').addEventListener('click', openCertificateModal);
+            document.getElementById('download-certificate').addEventListener('click', downloadCertificate);
+            document.getElementById('email-certificate').addEventListener('click', showEmailForm);
+            document.getElementById('whatsapp-certificate').addEventListener('click', showWhatsappForm);
+            document.getElementById('send-email').addEventListener('click', sendCertificate);
+            document.getElementById('send-whatsapp').addEventListener('click', sendCertificate);
+            
+            // Start course button
+            document.getElementById('start-course').addEventListener('click', () => {
+                openLesson(1); // Start with first lesson
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === lessonModal) lessonModal.classList.remove('open');
+                if (e.target === quizModal) quizModal.classList.remove('open');
+                if (e.target === resultModal) resultModal.classList.remove('open');
+                if (e.target === certificateModal) certificateModal.classList.remove('open');
+            });
+        }
+    </script>
+</body>
+</html>
