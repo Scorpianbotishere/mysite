@@ -3,423 +3,606 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Web Developer & Graphic Designer | Birmingham</title>
+    <title>Ash Bangash | Full-Stack Engineer & Solutions Architect</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3B82F6',
-                        secondary: '#1E40AF',
-                        accent: '#F59E0B',
+                        primary: '#8B5CF6',
+                        secondary: '#A78BFA',
+                        accent: '#7C3AED',
+                        dark: '#0F0A1F',
+                        darkbg: '#1A1230',
+                        glass: 'rgba(255, 255, 255, 0.03)',
+                        glassborder: 'rgba(255, 255, 255, 0.08)',
                     },
-                    fontFamily: {
-                        'poppins': ['Poppins', 'sans-serif'],
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'fadeIn': 'fadeIn 1s ease-in-out',
-                        'slideIn': 'slideIn 1s ease-out',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideIn: {
-                            '0%': { transform: 'translateX(-100%)' },
-                            '100%': { transform: 'translateX(0)' },
-                        }
+                    fontFamily: { 
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
                     }
                 }
             }
         }
     </script>
+
     <style>
-        html {
-            scroll-behavior: smooth;
+        * { cursor: default; }
+        html { scroll-behavior: smooth; }
+        body { 
+            background: linear-gradient(135deg, #0F0A1F 0%, #1A1230 50%, #2D1B4E 100%);
+            color: #fff; 
+            overflow-x: hidden;
+            position: relative;
         }
-        .hero-bg {
-            background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+
+        /* Animated Background Elements */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            background: linear-gradient(135deg, #0F0A1F 0%, #1A1230 50%, #2D1B4E 100%);
         }
-        .service-card {
-            transition: all 0.3s ease;
+
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: -1;
         }
-        .service-card:hover {
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.5), transparent);
+            top: -100px;
+            left: -100px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent);
+            bottom: -200px;
+            right: -100px;
+            animation: float 20s ease-in-out infinite reverse;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.4), transparent);
+            top: 50%;
+            right: 10%;
+            animation: float 18s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0px, 0px); }
+            50% { transform: translate(30px, 30px); }
+        }
+
+        /* Smooth Blur Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(139, 92, 246, 0.08);
+            border-color: #8B5CF6;
             transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
         }
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
+
+        /* Gradient Text */
         .gradient-text {
-            background: linear-gradient(90deg, #F59E0B, #EF4444);
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-border {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(167, 139, 250, 0.3));
+            padding: 1px;
+            border-radius: 1.5rem;
+        }
+
+        /* Infinite Marquee Animation */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-content {
+            display: flex;
+            width: fit-content;
+            animation: scroll 40s linear infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0F0A1F; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8B5CF6, #7C3AED); border-radius: 10px; }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+        }
+
+        /* Stats Counter */
+        .counter {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* FAQ Accordion */
+        .faq-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        .faq-item {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item.active {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: #8B5CF6;
+        }
+
+        .faq-item.active .faq-content { 
+            max-height: 300px; 
+            padding-bottom: 20px; 
+        }
+
+        .faq-item.active i { 
+            transform: rotate(180deg); 
+        }
+
+        /* Glow Effects */
+        .glow-button {
+            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .glow-button:hover {
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.6), 0 0 80px rgba(139, 92, 246, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Service Cards */
+        .service-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(167, 139, 250, 0.02));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 50%;
+        }
+
+        .service-card:hover {
+            border-color: #8B5CF6;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(167, 139, 250, 0.05));
+            transform: translateY(-8px);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+            border-radius: 50%;
+            border: 3px solid #1A1230;
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
         }
     </style>
 </head>
-<body class="font-poppins bg-gray-50">
+<body class="selection:bg-primary selection:text-white">
+
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+
     <!-- Navigation -->
-    <nav class="fixed w-full bg-white shadow-md z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <span class="text-2xl font-bold text-primary">DevDesign</span>
+    <nav class="fixed w-full z-[100] px-6 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass-card px-8 py-4 rounded-2xl">
+            <a href="#" class="text-2xl font-black tracking-tighter text-white">ASH<span class="gradient-text">.</span>B</a>
+            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest opacity-70">
+                <a href="#hero" class="hover:text-primary transition">Home</a>
+                <a href="#expertise" class="hover:text-primary transition">Expertise</a>
+                <a href="#stack" class="hover:text-primary transition">Stack</a>
+                <a href="#stats" class="hover:text-primary transition">Stats</a>
+                <a href="#testimonials" class="hover:text-primary transition">Testimonials</a>
+                <a href="#faq" class="hover:text-primary transition">FAQs</a>
             </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#home" class="text-gray-700 hover:text-primary transition-colors">Home</a>
-                <a href="#about" class="text-gray-700 hover:text-primary transition-colors">About</a>
-                <a href="#services" class="text-gray-700 hover:text-primary transition-colors">Services</a>
-                <a href="#portfolio" class="text-gray-700 hover:text-primary transition-colors">Portfolio</a>
-                <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Contact</a>
-            </div>
-            <div class="md:hidden">
-                <button id="menu-toggle" class="text-gray-700 focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-6 shadow-lg">
-            <a href="#home" class="block py-2 text-gray-700 hover:text-primary">Home</a>
-            <a href="#about" class="block py-2 text-gray-700 hover:text-primary">About</a>
-            <a href="#services" class="block py-2 text-gray-700 hover:text-primary">Services</a>
-            <a href="#portfolio" class="block py-2 text-gray-700 hover:text-primary">Portfolio</a>
-            <a href="#contact" class="block py-2 text-gray-700 hover:text-primary">Contact</a>
+            <a href="https://wa.me/923011114499" class="btn-primary text-sm">Let's Build</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-bg pt-24 pb-20 md:pt-32 md:pb-28 text-white">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-10 md:mb-0 animate-fadeIn">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">Transforming Ideas Into <span class="gradient-text">Digital Reality</span></h1>
-                <p class="text-xl mb-8 text-blue-100">Professional Web Development & Graphic Design Services in Birmingham</p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="#contact" class="bg-accent hover:bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105 text-center">Get Started</a>
-                    <a href="#portfolio" class="bg-transparent border-2 border-white hover:bg-white hover:text-primary text-white font-bold py-3 px-6 rounded-lg transition-all text-center">View Portfolio</a>
+    <section id="hero" class="relative min-h-screen flex items-center pt-32 px-6 hero-gradient overflow-hidden">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center w-full">
+            <div data-aos="fade-right" data-aos-duration="1200">
+                <div class="inline-block px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold mb-6 tracking-widest uppercase">
+                    🚀 7+ Years Experience • Islamabad Based
+                </div>
+                <h1 class="text-7xl lg:text-8xl font-black mb-8 leading-[0.9] tracking-tighter font-display">
+                    I build <span class="gradient-text">impactful</span> digital products.
+                </h1>
+                <p class="text-gray-300 text-lg mb-10 max-w-md leading-relaxed">
+                    Full-stack engineer & solutions architect specializing in scalable web applications, mobile development, and enterprise software. 25+ successful projects delivered with 98% client satisfaction.
+                </p>
+                <div class="flex flex-wrap gap-5">
+                    <a href="tel:+923011114499" class="btn-primary flex items-center group">
+                        Book a Call <i data-lucide="arrow-up-right" class="ml-2 w-5 h-5 group-hover:rotate-45 transition"></i>
+                    </a>
+                    <a href="#expertise" class="glass-card px-8 py-4 rounded-2xl font-bold border border-primary/50 hover:bg-primary/10 transition flex items-center gap-2">
+                        Explore Services <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                    </a>
                 </div>
             </div>
-            <div class="md:w-1/2 flex justify-center">
-                <div class="relative w-64 h-64 md:w-80 md:h-80">
-                    <div class="absolute inset-0 bg-white rounded-full opacity-20 floating"></div>
-                    <div class="absolute inset-4 bg-white rounded-full opacity-10 floating" style="animation-delay: 2s;"></div>
-                    <div class="absolute inset-8 bg-white rounded-full opacity-5 floating" style="animation-delay: 4s;"></div>
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-white rounded-full p-4 shadow-2xl">
-                            <i class="fas fa-laptop-code text-5xl md:text-6xl text-primary"></i>
+
+            <div class="relative flex justify-center" data-aos="fade-left" data-aos-duration="1200">
+                <div class="relative w-full max-w-lg aspect-square">
+                    <!-- Animated Border -->
+                    <div class="absolute inset-0 rounded-[3rem] border-2 border-transparent bg-gradient-to-br from-primary/50 to-accent/20 p-[2px]">
+                        <div class="w-full h-full bg-gradient-to-b from-primary/20 to-transparent rounded-[3rem] overflow-hidden border border-white/10 group pulse-glow">
+                            <img src="ash.jpeg" alt="Ash Bangash" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700 scale-100 group-hover:scale-105">
                         </div>
+                    </div>
+
+                    <!-- Info Card -->
+                    <div class="absolute bottom-6 left-6 right-6 p-6 glass-card rounded-2xl border-white/20 z-10">
+                        <p class="text-sm font-bold uppercase tracking-widest gradient-text mb-1">🎯 Available for Work</p>
+                        <p class="text-xs text-gray-400">Full-Stack • Mobile • Enterprise Solutions</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-800">About Me</h2>
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/3 mb-10 md:mb-0 flex justify-center">
-                    <div class="relative">
-                        <div class="w-64 h-64 bg-gradient-to-r from-primary to-secondary rounded-full overflow-hidden shadow-2xl">
-                            <!-- Placeholder for profile image -->
-                            <div class="w-full h-full bg-gray-300 flex items-center justify-center">
-                                <i class="fas fa-user text-6xl text-white"></i>
-                            </div>
-                        </div>
-                        <div class="absolute -bottom-4 -right-4 bg-accent text-white py-2 px-4 rounded-lg shadow-lg">
-                            <p class="font-bold">Birmingham Based</p>
-                        </div>
+    <!-- Expertise/Services Section -->
+    <section id="expertise" class="py-32 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-xs font-bold tracking-[0.3em] uppercase opacity-40 mb-4">Core Competencies</h2>
+                <h3 class="text-6xl font-black tracking-tighter font-display mb-6">Expertise & Services</h3>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">I deliver end-to-end solutions tailored to your business needs with modern tech stacks and best practices.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card p-10 rounded-3xl" data-aos="fade-up">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="code" class="text-white w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4">Full-Stack Development</h4>
+                    <p class="text-gray-300 text-sm leading-relaxed">Custom web applications using React, Next.js, Node.js, and modern databases. Scalable, performant, and production-ready.</p>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <p class="text-xs text-primary font-bold uppercase">Tech: React, Next.js, Node.js, PostgreSQL, MongoDB</p>
                     </div>
                 </div>
-                <div class="md:w-2/3 md:pl-12">
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Software Engineer & Designer</h3>
-                    <p class="text-gray-600 mb-6">I'm a British Pakistani web developer and graphic designer based in Birmingham, with a Software Engineering degree from the University of Birmingham. With a passion for creating visually stunning and highly functional digital experiences, I help businesses and individuals establish a strong online presence.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="flex items-start">
-                            <div class="bg-primary rounded-full p-2 mr-4 mt-1">
-                                <i class="fas fa-graduation-cap text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Education</h4>
-                                <p class="text-gray-600">Software Engineering, University of Birmingham</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-primary rounded-full p-2 mr-4 mt-1">
-                                <i class="fas fa-map-marker-alt text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Location</h4>
-                                <p class="text-gray-600">Birmingham, United Kingdom</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-primary rounded-full p-2 mr-4 mt-1">
-                                <i class="fas fa-code text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Specialization</h4>
-                                <p class="text-gray-600">Web Development & Graphic Design</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-primary rounded-full p-2 mr-4 mt-1">
-                                <i class="fas fa-briefcase text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Work</h4>
-                                <p class="text-gray-600">Freelance Software Engineer</p>
-                            </div>
-                        </div>
+
+                <div class="service-card p-10 rounded-3xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="smartphone" class="text-white w-7 h-7"></i>
                     </div>
-                    
-                    <div class="flex flex-wrap gap-4">
-                        <span class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full">HTML/CSS</span>
-                        <span class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full">JavaScript</span>
-                        <span class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full">Tailwind CSS</span>
-                        <span class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full">UI/UX Design</span>
-                        <span class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full">Brand Identity</span>
+                    <h4 class="text-2xl font-bold mb-4">Mobile Development</h4>
+                    <p class="text-gray-300 text-sm leading-relaxed">Native and cross-platform apps for iOS and Android. React Native for rapid development, Flutter for high performance.</p>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <p class="text-xs text-primary font-bold uppercase">Tech: React Native, Flutter, Swift, Kotlin</p>
+                    </div>
+                </div>
+
+                <div class="service-card p-10 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="server" class="text-white w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4">Enterprise Solutions</h4>
+                    <p class="text-gray-300 text-sm leading-relaxed">ERP systems, CRM platforms, and complex business logic. AWS deployment, security, and ongoing maintenance.</p>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <p class="text-xs text-primary font-bold uppercase">Tech: AWS, Docker, Microservices, Python</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">My Services</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">I provide comprehensive digital solutions to help businesses attract more visitors and expand their reach.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="service-card bg-white rounded-xl shadow-lg p-8">
-                    <div class="bg-primary rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-code text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-800">Web Development</h3>
-                    <p class="text-gray-600 mb-6">Custom websites built with modern technologies to ensure fast performance, security, and scalability for your business.</p>
-                    <ul class="text-gray-600 space-y-2">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>Responsive Design</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>E-commerce Solutions</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>SEO Optimization</span>
-                        </li>
-                    </ul>
+    <!-- Stats Section -->
+    <section id="stats" class="py-32 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="glass-card p-10 rounded-3xl text-center" data-aos="fade-up">
+                    <div class="counter" data-target="25">0</div>
+                    <p class="text-gray-300 text-sm mt-3 font-semibold">Projects Delivered</p>
+                    <p class="text-xs text-gray-400 mt-1">Across diverse industries</p>
                 </div>
-                
-                <!-- Service 2 -->
-                <div class="service-card bg-white rounded-xl shadow-lg p-8">
-                    <div class="bg-primary rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-palette text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-800">Graphic Design</h3>
-                    <p class="text-gray-600 mb-6">Creative visual designs that capture your brand's essence and communicate your message effectively to your audience.</p>
-                    <ul class="text-gray-600 space-y-2">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>Logo & Brand Identity</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>Marketing Materials</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>Social Media Graphics</span>
-                        </li>
-                    </ul>
+
+                <div class="glass-card p-10 rounded-3xl text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="counter" data-target="98">0</div>
+                    <p class="text-gray-300 text-sm mt-3 font-semibold">Client Satisfaction</p>
+                    <p class="text-xs text-gray-400 mt-1">Repeat business rate</p>
                 </div>
-                
-                <!-- Service 3 -->
-                <div class="service-card bg-white rounded-xl shadow-lg p-8">
-                    <div class="bg-primary rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-shopping-cart text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-800">Business Solutions</h3>
-                    <p class="text-gray-600 mb-6">Tailored digital solutions designed to help businesses attract more customers and expand their market presence.</p>
-                    <ul class="text-gray-600 space-y-2">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>Business Websites</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>Portfolio Sites</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-accent mr-2"></i>
-                            <span>Corporate Branding</span>
-                        </li>
-                    </ul>
+
+                <div class="glass-card p-10 rounded-3xl text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="counter" data-target="7">0</div>
+                    <p class="text-gray-300 text-sm mt-3 font-semibold">Years Experience</p>
+                    <p class="text-xs text-gray-400 mt-1">Professional expertise</p>
+                </div>
+
+                <div class="glass-card p-10 rounded-3xl text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="counter" data-target="50">0</div>
+                    <p class="text-gray-300 text-sm mt-3 font-semibold">Global Clients</p>
+                    <p class="text-xs text-gray-400 mt-1">From 15+ countries</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">My Portfolio</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">A showcase of my recent projects in web development and graphic design.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Portfolio Item 1 -->
-                <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg transform transition-all hover:scale-105">
-                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-                        <i class="fas fa-laptop text-white text-6xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Business Website</h3>
-                        <p class="text-gray-600 mb-4">A responsive business website designed to attract more customers and showcase services.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Web Development</span>
-                            <a href="#" class="text-primary hover:text-secondary font-medium">View Project →</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Portfolio Item 2 -->
-                <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg transform transition-all hover:scale-105">
-                    <div class="h-48 bg-gradient-to-r from-accent to-orange-500 flex items-center justify-center">
-                        <i class="fas fa-store text-white text-6xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">E-commerce Store</h3>
-                        <p class="text-gray-600 mb-4">A fully functional online store with payment integration and inventory management.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Web Development</span>
-                            <a href="#" class="text-primary hover:text-secondary font-medium">View Project →</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Portfolio Item 3 -->
-                <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg transform transition-all hover:scale-105">
-                    <div class="h-48 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
-                        <i class="fas fa-paint-brush text-white text-6xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Brand Identity</h3>
-                        <p class="text-gray-600 mb-4">Complete brand identity design including logo, color palette, and marketing materials.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Graphic Design</span>
-                            <a href="#" class="text-primary hover:text-secondary font-medium">View Project →</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-12">
-                <a href="#" class="bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all inline-flex items-center">
-                    View All Projects
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
+    <!-- Tech Stack Section -->
+    <section id="stack" class="py-20 border-y border-white/10">
+        <div class="mb-10 text-center px-6">
+            <h2 class="text-xs font-bold tracking-[0.3em] uppercase opacity-40">Technology Stack</h2>
+            <h3 class="text-3xl font-black mt-3">My Technical Arsenal</h3>
+        </div>
+        <div class="relative overflow-hidden flex py-10">
+            <div class="marquee-content gap-8 items-center">
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="codepen" class="text-primary"></i> <span class="font-bold text-sm">React Native</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="layers" class="text-primary"></i> <span class="font-bold text-sm">Next.js</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="database" class="text-primary"></i> <span class="font-bold text-sm">PostgreSQL</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="smartphone" class="text-primary"></i> <span class="font-bold text-sm">Flutter</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="terminal" class="text-primary"></i> <span class="font-bold text-sm">Python</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="globe" class="text-primary"></i> <span class="font-bold text-sm">Node.js</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="cloud" class="text-primary"></i> <span class="font-bold text-sm">AWS</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="zap" class="text-primary"></i> <span class="font-bold text-sm">TypeScript</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="codepen" class="text-primary"></i> <span class="font-bold text-sm">React Native</span></div>
+                <div class="flex items-center gap-3 glass-card px-8 py-4 rounded-2xl border border-primary/30 whitespace-nowrap"><i data-lucide="layers" class="text-primary"></i> <span class="font-bold text-sm">Next.js</span></div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">Get In Touch</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-16">Ready to take your business to the next level? Let's discuss your project!</p>
-            
-            <div class="flex flex-col lg:flex-row gap-12">
-                <div class="lg:w-1/2">
-                    <form class="bg-white rounded-xl shadow-lg p-8">
-                        <div class="mb-6">
-                            <label for="name" class="block text-gray-700 mb-2">Full Name</label>
-                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your Name">
-                        </div>
-                        <div class="mb-6">
-                            <label for="email" class="block text-gray-700 mb-2">Email Address</label>
-                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your Email">
-                        </div>
-                        <div class="mb-6">
-                            <label for="subject" class="block text-gray-700 mb-2">Subject</label>
-                            <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Project Type">
-                        </div>
-                        <div class="mb-6">
-                            <label for="message" class="block text-gray-700 mb-2">Message</label>
-                            <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Tell me about your project..."></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-primary hover:bg-secondary text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105">
-                            Send Message
-                        </button>
-                    </form>
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+                <div>
+                    <h2 class="gradient-text font-bold mb-4 uppercase tracking-tighter text-sm">Success Stories</h2>
+                    <h3 class="text-6xl font-black tracking-tighter font-display">Trusted by global <br>visionaries.</h3>
                 </div>
-                
-                <div class="lg:w-1/2">
-                    <div class="bg-white rounded-xl shadow-lg p-8 h-full">
-                        <h3 class="text-2xl font-bold mb-6 text-gray-800">Contact Information</h3>
-                        
-                        <div class="space-y-6">
-                            <div class="flex items-start">
-                                <div class="bg-primary rounded-full p-3 mr-4">
-                                    <i class="fas fa-map-marker-alt text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800">Location</h4>
-                                    <p class="text-gray-600">Birmingham, United Kingdom</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="bg-primary rounded-full p-3 mr-4">
-                                    <i class="fas fa-envelope text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800">Email</h4>
-                                    <p class="text-gray-600">hello@devdesign.com</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="bg-primary rounded-full p-3 mr-4">
-                                    <i class="fas fa-phone text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800">Phone</h4>
-                                    <p class="text-gray-600">+44 123 456 7890</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-10">
-                            <h4 class="font-bold text-gray-800 mb-4">Follow Me</h4>
-                            <div class="flex space-x-4">
-                                <a href="#" class="bg-gray-200 hover:bg-primary text-gray-700 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                                <a href="#" class="bg-gray-200 hover:bg-primary text-gray-700 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="#" class="bg-gray-200 hover:bg-primary text-gray-700 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <a href="#" class="bg-gray-200 hover:bg-primary text-gray-700 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                    <i class="fab fa-dribbble"></i>
-                                </a>
-                            </div>
-                        </div>
+                <div class="text-primary flex gap-1">
+                    <i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-10 rounded-3xl" data-aos="fade-up">
+                    <div class="flex gap-1 mb-6">
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-8 leading-relaxed">"Ash delivered a complex logistics software in record time. His attention to UI/UX details and architecture is unmatched. We've been collaborating for 3+ years."</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent"></div>
+                        <div><p class="font-bold text-sm">David Miller</p><p class="text-xs opacity-50">CEO, TechFlow Solutions</p></div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-10 rounded-3xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex gap-1 mb-6">
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-8 leading-relaxed">"25 projects and counting. I've worked with many engineers, but Ash's ability to solve complex mobile app performance issues is exceptional."</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent"></div>
+                        <div><p class="font-bold text-sm">Sarah Johnson</p><p class="text-xs opacity-50">Founder, GlamApp</p></div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-10 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex gap-1 mb-6">
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                        <i data-lucide="star" class="text-primary w-4 h-4" fill="currentColor"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-8 leading-relaxed">"The best full-stack engineer in Islamabad. Clean code, professional communication, scalable architecture, and incredible results. Highly recommended!"</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent"></div>
+                        <div><p class="font-bold text-sm">Omar Farooq</p><p class="text-xs opacity-50">CTO, Nexus Technologies</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-32 px-6 bg-gradient-to-b from-primary/5 to-transparent">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-xs font-bold tracking-[0.3em] uppercase opacity-40 mb-4">Questions Answered</h2>
+                <h3 class="text-6xl font-black font-display tracking-tighter">Frequently Asked <span class="gradient-text">Questions</span></h3>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="faq-item glass-card rounded-2xl px-8 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="py-6 flex justify-between items-center hover:opacity-80 transition">
+                        <span class="font-bold text-lg">How many projects have you successfully completed?</span>
+                        <i data-lucide="chevron-down" class="transition-transform duration-300 text-primary"></i>
+                    </div>
+                    <div class="faq-content text-gray-300 text-sm leading-relaxed">
+                        I have successfully architected and launched over 25+ projects ranging from e-commerce platforms and SaaS applications to complex ERP systems, mobile apps, and enterprise solutions. My portfolio spans various industries including fintech, healthcare, education, logistics, and e-commerce.
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-2xl px-8 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="py-6 flex justify-between items-center hover:opacity-80 transition">
+                        <span class="font-bold text-lg">What is your typical project timeline?</span>
+                        <i data-lucide="chevron-down" class="transition-transform duration-300 text-primary"></i>
+                    </div>
+                    <div class="faq-content text-gray-300 text-sm leading-relaxed">
+                        Project timelines vary based on complexity and scope. Typically: Simple websites take 2-3 weeks, full-stack web applications take 4-8 weeks, mobile apps take 6-12 weeks, and enterprise solutions with custom requirements take 3-6 months. I provide detailed timelines after analyzing your specific requirements.
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-2xl px-8 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="py-6 flex justify-between items-center hover:opacity-80 transition">
+                        <span class="font-bold text-lg">Do you offer maintenance and support after launch?</span>
+                        <i data-lucide="chevron-down" class="transition-transform duration-300 text-primary"></i>
+                    </div>
+                    <div class="faq-content text-gray-300 text-sm leading-relaxed">
+                        Absolutely! I provide comprehensive support packages including bug fixes, security updates, feature enhancements, and performance optimization. I offer monthly, quarterly, and annual support plans tailored to your needs, with 24/7 emergency response available for critical issues.
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-2xl px-8 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="py-6 flex justify-between items-center hover:opacity-80 transition">
+                        <span class="font-bold text-lg">What is your development process?</span>
+                        <i data-lucide="chevron-down" class="transition-transform duration-300 text-primary"></i>
+                    </div>
+                    <div class="faq-content text-gray-300 text-sm leading-relaxed">
+                        I follow Agile methodology with regular sprints, transparent communication, and iterative development. Process includes: Requirements gathering & analysis, Wireframing & prototyping, Development with code reviews, Testing & QA, Deployment, and ongoing support. You'll have weekly updates and can request changes throughout development.
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-2xl px-8 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="py-6 flex justify-between items-center hover:opacity-80 transition">
+                        <span class="font-bold text-lg">Can you work on existing projects or legacy code?</span>
+                        <i data-lucide="chevron-down" class="transition-transform duration-300 text-primary"></i>
+                    </div>
+                    <div class="faq-content text-gray-300 text-sm leading-relaxed">
+                        Yes, I specialize in taking over existing projects, refactoring legacy code, and modernizing outdated systems. Whether you need to add features, fix bugs, or completely rebuild your tech stack, I can handle it. I'll provide a detailed code audit and migration plan before starting.
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-2xl px-8 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="py-6 flex justify-between items-center hover:opacity-80 transition">
+                        <span class="font-bold text-lg">How do you ensure code quality and security?</span>
+                        <i data-lucide="chevron-down" class="transition-transform duration-300 text-primary"></i>
+                    </div>
+                    <div class="faq-content text-gray-300 text-sm leading-relaxed">
+                        I follow industry best practices: clean code principles, automated testing (unit & integration tests), code reviews, security audits, OWASP compliance, encrypted data handling, regular backups, and CI/CD pipelines. All projects use version control, monitoring, and logging for production readiness.
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-2xl px-8 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="py-6 flex justify-between items-center hover:opacity-80 transition">
+                        <span class="font-bold text-lg">What are your rates and payment terms?</span>
+                        <i data-lucide="chevron-down" class="transition-transform duration-300 text-primary"></i>
+                    </div>
+                    <div class="faq-content text-gray-300 text-sm leading-relaxed">
+                        I offer flexible pricing models: hourly rates ($50-150/hour), fixed project pricing, and retainer agreements. I require a 50% deposit to start, with the remainder due on completion. For long-term partnerships, I offer monthly retainer packages with priority support. Payment methods: bank transfer, PayPal, or crypto.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-32 px-6 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="glass-card p-16 rounded-3xl text-center border-primary/50 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-primary/20 to-transparent rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="relative z-10">
+                    <h2 class="text-6xl font-black font-display mb-6 tracking-tighter">Ready to build something <span class="gradient-text">extraordinary?</span></h2>
+                    <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+                        Let's discuss your project and create a solution that exceeds expectations. I'm available for new projects and ready to transform your ideas into reality.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="https://wa.me/923011114499" class="btn-primary flex items-center justify-center gap-2 text-lg">
+                            WhatsApp Me <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        </a>
+                        <a href="tel:+923011114499" class="glass-card border-primary/50 px-10 py-4 rounded-2xl font-bold border text-lg hover:bg-primary/10 transition flex items-center justify-center gap-2">
+                            Call Now <i data-lucide="phone" class="w-5 h-5"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -427,73 +610,114 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <h2 class="text-2xl font-bold">DevDesign</h2>
-                    <p class="text-gray-400 mt-2">Web Development & Graphic Design Services</p>
+    <footer class="pt-20 pb-10 px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tighter mb-4">ASH<span class="gradient-text">.</span>B</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Full-stack engineer crafting scalable digital solutions for global brands. Let's build something remarkable together.</p>
                 </div>
-                <div class="flex space-x-6">
-                    <a href="#home" class="text-gray-400 hover:text-white transition-colors">Home</a>
-                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
-                    <a href="#services" class="text-gray-400 hover:text-white transition-colors">Services</a>
-                    <a href="#portfolio" class="text-gray-400 hover:text-white transition-colors">Portfolio</a>
-                    <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+                <div>
+                    <h4 class="font-bold mb-4 uppercase text-sm tracking-widest">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#expertise" class="hover:text-primary transition">Services</a></li>
+                        <li><a href="#stack" class="hover:text-primary transition">Tech Stack</a></li>
+                        <li><a href="#testimonials" class="hover:text-primary transition">Testimonials</a></li>
+                        <li><a href="#faq" class="hover:text-primary transition">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 uppercase text-sm tracking-widest">Connect</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="https://wa.me/923011114499" class="hover:text-primary transition flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp</a></li>
+                        <li><a href="tel:+923011114499" class="hover:text-primary transition flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4"></i> +92 301 1114499</a></li>
+                        <li><a href="mailto:ash@example.com" class="hover:text-primary transition flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4"></i> Email</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2023 DevDesign. All rights reserved. | Birmingham Based Freelance Developer</p>
+            <div class="py-8 flex flex-col sm:flex-row justify-between items-center text-gray-500 text-xs gap-4">
+                <p>© 2026 ASH BANGASH • ISLAMABAD, PAKISTAN</p>
+                <p>Crafted with passion. Delivered with excellence.</p>
             </div>
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Mobile menu toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
         });
 
-        // Smooth scrolling for anchor links
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Counter Animation
+        function animateCounter() {
+            const counters = document.querySelectorAll('.counter');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                let current = 0;
+                const increment = target / 100;
+                
+                const updateCount = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                // Trigger animation when element is in view
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        updateCount();
+                        observer.unobserve(counter);
+                    }
+                });
+                
+                observer.observe(counter);
+            });
+        }
+
+        animateCounter();
+
+        // FAQ Toggle Function
+        function toggleFAQ(element) {
+            const isActive = element.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            if (!isActive) {
+                element.classList.add('active');
+            }
+        }
+
+        // Smooth Scroll for Anchor Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    const mobileMenu = document.getElementById('mobile-menu');
-                    mobileMenu.classList.add('hidden');
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
             });
         });
 
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fadeIn');
-                }
-            });
-        }, observerOptions);
-
-        // Observe elements for animation
-        document.querySelectorAll('.service-card, .grid > div').forEach(el => {
-            observer.observe(el);
+        // Update Lucide icons dynamically
+        window.addEventListener('load', () => {
+            lucide.createIcons();
         });
     </script>
 </body>
